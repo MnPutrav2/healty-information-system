@@ -1,0 +1,16 @@
+:root {
+  --background-color:  rgb(23, 23, 23);
+  --background-color-transparent: rgba(138, 138, 138, 0.307);
+  --menu-color:  rgb(39, 39, 39);
+  --font-color: rgb(235, 245, 255);
+  --font-color-sec: rgb(113, 113, 113);
+  --line-color: white;
+  --line-color-transparent: rgba(255, 255, 255, 0.24);
+  --scroll-color: black transparent;
+  --table-color: rgba(129, 129, 129, 0.057);
+  --font-size: 0.8rem;
+  --font-family: sans-serif;
+  --validate: rgb(0, 255, 0);
+  --invalidate: rgb(255, 0, 0);
+  --mascot-bg: rgba(157, 157, 157, 0.092);
+}
