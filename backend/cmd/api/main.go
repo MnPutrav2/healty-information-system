@@ -75,6 +75,9 @@ func main() {
 	handlerPath("/satu-sehat/clinical-impression", routes.SatuSehatClinicalImpression, db)
 	handlerPath("/satu-sehat/observation", routes.SatuSehatObservation, db)
 
+	// Human Resource API
+	handlerPath("/human-resource/employees", routes.Employee, db)
+
 	// Logs
 	handler("GET", "/logs", controllers.GetLogs, db)
 

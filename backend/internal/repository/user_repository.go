@@ -81,7 +81,7 @@ func (q *userRepository) GetUserStatus(token string, path string) (models.Employ
 
 	var user models.EmployeeData
 
-	err = q.sql.QueryRow("SELECT employees.id, employees.name, employees.gender, employees.birth_place, employees.birth_date, employees.address, employees.village, employees.district, employees.regencie, employees.province, employees.nik, employees.bpjs, employees.npwp, employees.phone_number, employees.email FROM employees INNER JOIN users ON employees.id = users.employee_id WHERE users.id = $1", id).Scan(&user.Employee_ID, &user.Name, &user.Gender, &user.BirthPlace, &user.BirthDate, &user.Address, &user.Village, &user.District, &user.Regencie, &user.Province, &user.NIK, &user.BPJS, &user.NPWP, &user.PhoneNumber, &user.Email)
+	err = q.sql.QueryRow("SELECT employees.id, employees.name, employees.gender, employees.birth_place, employees.birth_date, employees.address, employees.nik, employees.bpjs, employees.npwp, employees.phone_number, employees.email FROM employees INNER JOIN users ON employees.id = users.employee_id WHERE users.id = $1", id).Scan(&user.ID, &user.Name, &user.Gender, &user.BirthPlace, &user.BirthDate, &user.Address, &user.NIK, &user.BPJS, &user.NPWP, &user.PhoneNumber, &user.Email)
 	if err != nil {
 		return models.EmployeeData{}, err
 	}
