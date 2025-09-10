@@ -3,7 +3,8 @@ import { addEmployee, deleteEmployee, getEmployee, updateEmployee } from '@/lib/
 import { formatDate } from '@/lib/formatDate';
 import type { EmployeeData } from '@/types/hr';
 import type { ResponseError, ResponseSuccess, SearchLimit } from '@/types/response';
-import { onBeforeMount, reactive, ref } from 'vue';
+import { nextTick, onBeforeMount, reactive, ref } from 'vue';
+import InputData from '../Extras/InputData.vue';
 
 const open = ref<boolean>(false)
 const dropOpenTemplate = ref<boolean[]>([])
@@ -111,25 +112,16 @@ async function handleUpdateEmployee() {
 }
 
 function editEmployee(data: EmployeeData, index: number) {
-  pages.value?.scrollIntoView({behavior: 'smooth'})
-
   updateID.value = data.id
   update.value = true
   open.value = true
   dropOpenTemplate.value[index] = false
 
-  employeeReq.id = data.id
-  employeeReq.name = data.name
-  employeeReq.gender = data.gender
-  employeeReq.birth_place = data.birth_place
-  employeeReq.birth_date = data.birth_date
-  employeeReq.wedding = data.wedding
-  employeeReq.address = data.address
-  employeeReq.nik = data.nik
-  employeeReq.bpjs = data.bpjs
-  employeeReq.npwp = data.npwp
-  employeeReq.phone_number = data.phone_number
-  employeeReq.email = data.email
+  Object.assign(employeeReq, {...data, birth_date: formatDate(new Date(data.birth_date))})
+
+  nextTick(() => {
+    pages.value?.scrollIntoView({behavior: 'smooth'})
+  })
 }
 
 function resetForm() {
@@ -161,86 +153,50 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-else v-on:submit.prevent="">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Tambah pegawai</h4>
         <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="id">ID pegawai</label>
-            </div>
+          <InputData :props="{id: 'id', name: 'ID pegawai'}">
             <input type="text" v-model="employeeReq.id" id="id" placeholder="ID pemeriksaan" required>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="nm">Nama</label>
-            </div>
-            <input type="text" id="nm" v-model="employeeReq.name" placeholder="Nama" required>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="jk">Jenis kelamin</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'nm', name: 'Nama'}">
+            <input type="text" v-model="employeeReq.id" id="nm" placeholder="Nama" required>
+          </InputData>
+          <InputData :props="{id: 'jk', name: 'Jenis kelamin'}">
             <select id="jk" v-model="employeeReq.gender" required>
               <option value="Laki - laki">Laki - laki</option>
               <option value="Perempuan">Perempuan</option>
             </select>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="pn">Status pernikahan</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'pn', name: 'Status pernikahan'}">
             <select id="pn" v-model="employeeReq.wedding" required>
               <option value="Menikah">Menikah</option>
               <option value="Belum menikah">Belum menikah</option>
               <option value="Cerai">Cerai</option>
               <option value="Cerai mati">Cerai mati</option>
             </select>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="bp">Tempat lahir</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'bp', name: 'Tempat lahir'}">
             <input type="text" id="bp" v-model="employeeReq.birth_place" placeholder="Tempat lahir" required>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="tl">Tanggal lahir</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'tl', name: 'Tempat lahir'}">
             <input type="date" id="tl" v-model="employeeReq.birth_date" placeholder="Tempat lahir" required>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div>
-              <label for="al">Alamat</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'al', name: 'Alamat'}">
             <textarea id="al" v-model="employeeReq.address" placeholder="Alamat" required></textarea>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="nik">NIK</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'nik', name: 'NIK'}">
             <input type="text" v-model="employeeReq.nik" id="nik" placeholder="NIK" required>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="bpj">BPJS</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'bpj', name: 'BPJS'}">
             <input type="text" v-model="employeeReq.bpjs" id="bpj" placeholder="BPJS" required>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="npw">NPWP</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'npw', name: 'NPWP'}">
             <input type="text" id="npw" v-model="employeeReq.npwp" placeholder="NPWP" required>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="tlp">Nomor telpon</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'npw', name: 'Nomor telpon'}">
             <input type="text" id="tlp" v-model="employeeReq.phone_number" placeholder="Nomor telpon" required>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="em">Email</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'em', name: 'Email'}">
             <input type="email" v-model="employeeReq.email" id="em" placeholder="Email" required>
-          </div>
+          </InputData>
           <div>
             <button type="button" @click="resetForm">Reset</button>
             <button type="button" v-if="update" @click="handleUpdateEmployee">Update</button>
@@ -255,18 +211,12 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-on:submit.prevent="handleGetEmployee">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari data pegawai</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="nv">Nama pegawai</label>
-            </div>
+          <InputData :props="{id: 'nv', name: 'Nama pegawai'}">
             <input type="text" id="nv" v-model="search.search" placeholder="Nama pegawai">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="l">Limit</label>
-            </div>
+          </InputData>
+          <InputData :props="{id: 'l', name: 'Limit'}">
             <input type="number" id="l" v-model="search.limit" placeholder="Limit">
-          </div>
+          </InputData>
           <button type="submit">Cari</button>
         </div>
       </form>
@@ -309,10 +259,10 @@ onBeforeMount(async () => {
                   <div class="menu" v-if="dropOpenTemplate[index]">
                       <ul>
                           <li>
-                              <button @click="handleDeleteEmployee(data.id)">Delete</button>
+                              <button class="button-action" @click="handleDeleteEmployee(data.id)">Delete</button>
                           </li>
                           <li>
-                            <button @click="editEmployee(data, index)">Update</button>
+                            <button class="button-action" @click="editEmployee(data, index)">Update</button>
                           </li>
                       </ul>
                   </div>

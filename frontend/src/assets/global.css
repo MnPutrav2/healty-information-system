@@ -85,6 +85,10 @@ button {
   border-radius: 0.2rem;
 }
 
+input {
+  font-size: 0.5rem;
+}
+
 .form-data-custom label {
   font-size: 0.8rem;
   color: var(--font-color-sec);

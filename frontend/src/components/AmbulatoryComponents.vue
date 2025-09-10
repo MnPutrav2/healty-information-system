@@ -8,6 +8,8 @@ import type { RegistrationData } from '@/types/register';
 import type { AmbulatoryCareRequest, AmbulatoryCare, AmbulatoryCareRequestUpdate } from '@/types/ambulatory';
 import type { SearchLimit } from '@/types/response';
 import router from '@/router';
+import InputData from './Extras/InputData.vue';
+import InputDataTime from './Extras/InputDataTime.vue';
 
 // Define variabels
 const user = defineProps(['data'])
@@ -238,19 +240,10 @@ onBeforeMount(async () => {
 
           <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Input Pemeriksaan</h4>
           <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-            <div class="input-field">
-              <div class="cover">
-                <label for="cm">Nomor Rawat</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            <InputData :props="{ id: 'cm', name: 'Nomor rawat' }">
               <input type="text" id="cm" v-model="ambulatoryData.care_number" placeholder="Nomor rawat" required>
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="awa">Kesadaran</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            </InputData>
+            <InputData :props="{ id: 'awa', name: 'Kesadaran' }">
               <select id="awa" v-model="ambulatoryData.awareness">
                 <option value="Compos Mentis">Compos Mentis</option>
                 <option value="Somnolence">Somnolence</option>
@@ -262,151 +255,69 @@ onBeforeMount(async () => {
                 <option value="Pain">Pain</option>
                 <option value="Unresponsive">Unresponsive</option>
               </select>
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="al">Alergi</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            </InputData>
+            <InputData :props="{ id: 'al', name: 'Alergi' }">
               <input type="text" id="al" v-model="ambulatoryData.allergy" placeholder="Alergi" required>
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="date">Tanggal</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
-              <div class="center">
-                <div class="center">
-                  <input type="datetime-local" step="1" id="date" v-model="ambulatoryData.date" placeholder="tanggal">
-                  <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="ofc">Petugas</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            </InputData>
+            <InputDataTime :props="{ id: 'date', name: 'Tanggal' }">
+              <input type="datetime-local" step="1" id="date" v-model="ambulatoryData.date" placeholder="tanggal">
+              <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
+            </InputDataTime>
+            <InputData :props="{ id: 'ofc', name: 'Petugas' }">
               <select id="ofc" v-model="ambulatoryData.officer">
                 <option v-for="ofc in officers" :value="ofc.id" :key="ofc.id">{{ ofc.name }}</option>
               </select>
-            </div>
+            </InputData>
           </div>
 
           <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Pemeriksaan</h4>
           <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-            <div class="input-field">
-              <div class="cover">
-                <label for="complaint">Subjek</label>
-                <textarea id="complaint" v-model="ambulatoryData.complaint" placeholder="keluhan pasien"></textarea>
-              </div>
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="exam">Objek</label>
-                <textarea id="exam" v-model="ambulatoryData.examination" placeholder="Pemeriksaan"></textarea>
-              </div>
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="as">Assesment</label>
-                <textarea id="as" v-model="ambulatoryData.assessment" placeholder="Assesment"></textarea>
-              </div>
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="fol">Plan</label>
-                <textarea id="fol" v-model="ambulatoryData.followup" placeholder="Tindak lanjut"></textarea>
-              </div>
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="int">Intruksi</label>
-                <textarea id="int" v-model="ambulatoryData.instructions" placeholder="Intruksi"></textarea>
-              </div>
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="evl">Evaluasi</label>
-                <textarea id="evl" v-model="ambulatoryData.evaluation" placeholder="Evaluasi"></textarea>
-              </div>
-            </div>
-
+            <InputData :props="{ id: 'complaint', name: 'Subject' }">
+              <textarea id="complaint" v-model="ambulatoryData.complaint" placeholder="keluhan pasien"></textarea>
+            </InputData>
+            <InputData :props="{ id: 'exam', name: 'Objek' }">
+              <textarea id="exam" v-model="ambulatoryData.examination" placeholder="Pemeriksaan"></textarea>
+            </InputData>
+            <InputData :props="{ id: 'as', name: 'Assesment' }">
+              <textarea id="as" v-model="ambulatoryData.assessment" placeholder="Assesment"></textarea>
+            </InputData>
+            <InputData :props="{ id: 'as', name: 'Plan' }">
+              <textarea id="fol" v-model="ambulatoryData.followup" placeholder="Tindak lanjut"></textarea>
+            </InputData>
+            <InputData :props="{ id: 'int', name: 'Intruksi' }">
+              <textarea id="int" v-model="ambulatoryData.instructions" placeholder="Intruksi"></textarea>
+            </InputData>
+            <InputData :props="{ id: 'evl', name: 'Evaluasi' }">
+              <textarea id="evl" v-model="ambulatoryData.evaluation" placeholder="Evaluasi"></textarea>
+            </InputData>
           </div>
 
           <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Pemeriksaan</h4>
           <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-            <div class="input-field">
-              <div class="cover">
-                <label for="bt">Suhu Badan</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            <InputData :props="{ id: 'bt', name: 'Suhu Badan' }">
               <input type="number" id="bt" v-model="ambulatoryData.body_temperature" placeholder="suhu badan">
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="hg">Tinggi Badan (Cm)</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
-              <input type="number" id="hg" v-model="ambulatoryData.height" placeholder="tinggi badan">
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="wg">Berat Badan (Kg)</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            </InputData>
+            <InputData :props="{ id: 'hg', name: 'Tinggi Badan (Cm)' }">
+              <input type="number" id="bt" v-model="ambulatoryData.height" placeholder="tinggi badan">
+            </InputData>
+            <InputData :props="{ id: 'wg', name: 'Berat Badan (Kg)' }">
               <input type="number" id="wg" v-model="ambulatoryData.weight" placeholder="berat badan">
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="ts">Tensi (mmHg)</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            </InputData>
+            <InputData :props="{ id: 'ts', name: 'Tensi (mmHg)' }">
               <input type="text" id="ts" v-model="ambulatoryData.tension" placeholder="Tensi">
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="pl">Nadi</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            </InputData>
+            <InputData :props="{ id: 'pl', name: 'Nadi' }">
               <input type="number" id="pl" v-model="ambulatoryData.pulse" placeholder="nadi">
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="spo">SPO</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            </InputData>
+            <InputData :props="{ id: 'spo', name: 'SPO' }">
               <input type="number" id="spo" v-model="ambulatoryData.spo2" placeholder="spo2">
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="gcs">GCS</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            </InputData>
+            <InputData :props="{ id: 'gcs', name: 'GCS' }">
               <input type="number" id="gcs" v-model="ambulatoryData.gcs" placeholder="GCS">
-            </div>
-
-            <div class="input-field">
-              <div class="cover">
-                <label for="rs">Respirasi</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
+            </InputData>
+            <InputData :props="{ id: 'rs', name: 'Respirasi' }">
               <input type="number" id="rs" v-model="ambulatoryData.respiration" placeholder="Respirasi">
-            </div>
+            </InputData>
           </div>
 
           <div>
@@ -423,24 +334,15 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-on:submit.prevent="handleGetAmbulatoryData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Data Pemeriksaan Pasien</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="dt1">Tanggal</label>
-            </div>
+          <InputData :props="{ id: 'dt1', name: 'Tanggal awal' }">
             <input type="datetime-local" step="1" id="dt1" v-model="dateSearch1" placeholder="date">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="dt2">s.d</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'dt2', name: 'Tanggal akhir' }">
             <input type="datetime-local" step="1" id="dt2" v-model="dateSearch2" placeholder="date">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="sc">Cari</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'sc', name: 'Cari' }">
             <input type="text" id="sc" v-model="searchAmbulatory" placeholder="No Rawat/Nama Pasien">
-          </div>
+          </InputData>
           <button>Cari</button>
         </div>
       </form>
@@ -517,30 +419,18 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-on:submit.prevent="handleGetRegister">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari pasien Rawat Jalan</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="date1">Tanggal</label>
-            </div>
-            <input type="datetime-local" step="1" id="date1" v-model="date1" placeholder="date">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="date2">s.d</label>
-            </div>
-            <input type="datetime-local" step="1" id="date2" v-model="date2" placeholder="date">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="search1">Cari</label>
-            </div>
-            <input type="text" id="search1" v-model="search.search" placeholder="No Rawat/Nama Pasien">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="limit2">Limit</label>
-            </div>
-            <input type="number" id="limit2" v-model="search.limit" placeholder="Limit data">
-          </div>
+          <InputData :props="{ id: 'dtd1', name: 'Tanggal awal' }">
+            <input type="datetime-local" step="1" id="dt1" v-model="date1" placeholder="date">
+          </InputData>
+          <InputData :props="{ id: 'dtd2', name: 'Tanggal akhir' }">
+            <input type="datetime-local" step="1" id="dt2" v-model="date2" placeholder="date">
+          </InputData>
+          <InputData :props="{ id: 'sc', name: 'Cari' }">
+            <input type="text" id="sc" v-model="search.search" placeholder="No Rawat/Nama Pasien">
+          </InputData>
+          <InputData :props="{ id: 'lm', name: 'Limit' }">
+            <input type="number" v-model="search.limit" id="lm" placeholder="limit">
+          </InputData>
           <button>Cari</button>
         </div>
       </form>

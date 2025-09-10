@@ -4,6 +4,7 @@ import { onBeforeMount, reactive, ref } from 'vue';
 import type { DrugData, Distributor, ResponseDrugData, RequestBodyDrugDataUpdate } from '@/types/pharmacy';
 import { viewedDateTime } from '@/lib/formatDate';
 import type { SearchLimit } from '@/types/response';
+import InputData from '../Extras/InputData.vue';
 
 // Define variabels
 const search = reactive<SearchLimit>({
@@ -146,93 +147,44 @@ onBeforeMount(async ()=> {
 
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Input Data Obat</h4>
         <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-          <div class="input-field">
-            <div class="cover">
-              <label for="id">Kode Obat</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          <InputData :props="{ id: 'id', name: 'Kode obat' }">
             <input type="text" id="id" placeholder="Kode obat" v-model="drug.id" maxlength="6" required>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="nm">Nama obat</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'nm', name: 'Nama obat' }">
             <input type="text" id="nm" placeholder="Nama obat" v-model="drug.name" maxlength="20" required>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="distributor">Distributor</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'distributor', name: 'Distributor' }">
             <select id="distributor" placeholder="Distributor" v-model="drug.distributor">
               <option v-for="dis in distributors" :key="dis.id" :value="dis.id">{{ dis.name }}</option>
             </select>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="cp">Kapasitas</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'cp', name: 'Kapasitas' }">
             <input type="number" id="cp" placeholder="Kapasitas" v-model="drug.capacity" required>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="unit">Unit</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'unit', name: 'Unit' }">
             <select id="unit" v-model="drug.unit">
               <option value="mg">MG</option>
               <option value="ml">ML</option>
             </select>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="com">Komposisi</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'com', name: 'Komposisi' }">
             <input type="text" id="com" placeholder="komposisi" v-model="drug.composition" required>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="fill">Isi/Box</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'fill', name: 'Isi/Box' }">
             <input type="number" id="fill" placeholder="isi" v-model="drug.fill" required>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="ucategorynit">Kategori</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'ucategorynit', name: 'Kategori' }">
             <select id="ucategorynit" v-model="drug.category">
               <option value="Obat">Obat</option>
               <option value="BHP">BHP</option>
             </select>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="price">Harga</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'price', name: 'Harga' }">
             <input type="number" id="price" placeholder="harga" v-model="drug.price" required>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="exp">Tanggal kadaluarsa</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'exp', name: 'Tanggal kadaluarsa' }">
             <input type="date" id="exp" placeholder="harga" v-model="drug.expired_date" required>
-          </div>
+          </InputData>
         </div>
 
         <div>
@@ -248,18 +200,12 @@ onBeforeMount(async ()=> {
       <form class="form-data-custom" v-on:submit.prevent="handleGetDrugData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Data Obat</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="sc">Cari</label>
-            </div>
+          <InputData :props="{ id: 'sc', name: 'Cari' }">
             <input type="text" id="sc" v-model="search.search" placeholder="Nama obat">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="lm">Limit</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'lm', name: 'Limit' }">
             <input type="number" id="lm" v-model="search.limit" placeholder="limit">
-          </div>
+          </InputData>
           <button type="submit">Cari</button>
         </div>
       </form>

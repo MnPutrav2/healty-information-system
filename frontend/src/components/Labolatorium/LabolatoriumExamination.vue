@@ -3,6 +3,8 @@ import { getLabolatoriumDetailData, getLabolatoriumRequest, updateLabolatoriumSa
 import { nextTick, onBeforeMount, ref } from 'vue'
 import type { LabolatoriumRequestData,  LabReq, LabolatoriumValue, LabUpdateSample, LabolatoriumDetailData } from '@/types/labolatorium'
 import { formatDatetime, viewedDateTime } from '@/lib/formatDate'
+import InputData from '../Extras/InputData.vue'
+import InputDataTime from '../Extras/InputDataTime.vue'
 
 // Define variabel
 const date = new Date()
@@ -149,34 +151,17 @@ onBeforeMount(async () => {
     <div style="padding-top: 2rem; padding-bottom: 2rem;" class="bottom-line">
       <form class="form-data-custom" v-on:submit.prevent="handleGetLabolatoriumRequestData">
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="dt1">Tanggal awal</label>
-            </div>
+          <InputData :props="{ id: 'dt1', name: 'Tanggal awal' }">
             <input type="datetime-local" step="1" id="dt1" v-model="date1" placeholder="tanggal">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="dt2">Tanggal akhir</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'dt2', name: 'Tanggal akhir' }">
             <input type="datetime-local" step="1" id="dt2" v-model="date2" placeholder="tanggal">
-          </div>
+          </InputData>
+          <InputDataTime :props="{ id: 'dt1', name: 'Sample' }">
+            <input type="datetime-local" step="1" id="date" v-model="sampleDate" placeholder="tanggal">
+            <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
+          </InputDataTime>
           <button type="submit">Find</button>
-        </div>
-      </form>
-      <form class="form-data-custom">
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="dt1">Sample</label>
-            </div>
-             <div class="center">
-              <div class="center">
-                <input type="datetime-local" step="1" id="date" v-model="sampleDate" placeholder="tanggal">
-                <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
-              </div>
-            </div>
-          </div>
         </div>
       </form>
     </div>
@@ -227,17 +212,10 @@ onBeforeMount(async () => {
     <div style="padding-top: 2rem; padding-bottom: 2rem;" ref="scrollPage" v-if="open">
       <form class="form-data-custom" v-on:submit.prevent="handleUpdateLabolatoriumVal">
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="dt1">Hasil</label>
-            </div>
-             <div class="center">
-              <div class="center">
-                <input type="datetime-local" step="1" id="date" v-model="sampleDate" placeholder="tanggal">
-                <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
-              </div>
-            </div>
-          </div>
+          <InputDataTime :props="{ id: 'dt1', name: 'Hasil' }">
+            <input type="datetime-local" step="1" id="date" v-model="sampleDate" placeholder="tanggal">
+            <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
+          </InputDataTime>
           <button type="submit">Save</button>
         </div>
       </form>

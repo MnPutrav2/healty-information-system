@@ -2,6 +2,7 @@
 import { createLabolatoriumData, createLabolatoriumTemplateData, deleteLabolatoriumData, deleteLabolatoriumTemplate, getLabolatoriumData, getLabolatoriumTemplate, updateLabolatoriumData } from '@/lib/api/labolatorium';
 import type { LabolatoriumCreate, LabolatoriumDatas, LabolatoriumTemplate, LabolatoriumTemplateCreate } from '@/types/labolatorium';
 import { nextTick, onBeforeMount, reactive, ref } from 'vue';
+import InputData from '../Extras/InputData.vue';
 
 // Define variabel
 const pageScroll = ref<HTMLElement | null>()
@@ -46,11 +47,7 @@ function editLab(index: number,data: LabolatoriumDatas) {
     dropOpen.value[index] = false
     labolatoriumTemplate.value = []
 
-    createLabolatorium.id = data.id
-    createLabolatorium.name = data.name
-    createLabolatorium.referral_fee = data.referral_fee
-    createLabolatorium.officer_fee = data.officer_fee
-    createLabolatorium.management = data.management
+    Object.assign(createLabolatorium, data)
 }
 
 // Handler function
@@ -181,10 +178,6 @@ async function handleDeleteTemplate(data: LabolatoriumTemplate) {
   }
 }
 
-// function handleAddTemplateData() {
-//     template.value.push(createTemplate)
-// }
-
 async function handleAddTemplate(index: number, id: string) {
   dropOpen.value[index] = false
   createTemplate.id = id
@@ -208,36 +201,24 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-on:submit.prevent="handleCreateLabolatoriumData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Buat data pemeriksaan labolatorium</h4>
         <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="id">ID pemeriksaan</label>
-            </div>
+          <InputData :props="{ id: 'id', name: 'ID pemeriksaan' }">
             <input type="text" id="id" v-model="createLabolatorium.id" placeholder="ID pemeriksaan">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="nm">Nama pemeriksaan</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'id', name: 'Nama pemeriksaan' }">
             <input type="text" id="nm" v-model="createLabolatorium.name" placeholder="Nama pemeriksaan">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="prd">Biaya perujuk</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'id', name: 'Nama pemeriksaan' }">
+            <input type="text" id="nm" v-model="createLabolatorium.name" placeholder="Nama pemeriksaan">
+          </InputData>
+          <InputData :props="{ id: 'prd', name: 'Biaya perujuk' }">
             <input type="number" id="prd" v-model="createLabolatorium.referral_fee" placeholder="Biaya perujuk">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="pr">Biaya petugas</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'pr', name: 'Biaya petugas' }">
             <input type="number" id="pr" v-model="createLabolatorium.officer_fee" placeholder="Biaya petugas">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="ma">Manajement</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'ma', name: 'Manajement' }">
             <input type="number" id="ma" v-model="createLabolatorium.management" placeholder="Biaya manajement">
-          </div>
+          </InputData>
           <div>
             <button type="button" @click="resetForm">Reset</button>
             <button type="button" @click="handleUpdateLabData" v-if="open">Update</button>
@@ -297,24 +278,15 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-on:submit.prevent="handleCreateLabolatoriumTemplate">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Template hasil</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="tn">Nama template pemeriksaan</label>
-            </div>
+          <InputData :props="{ id: 'tn', name: 'Nama template pemeriksaan' }">
             <input type="text" id="tn" v-model="createTemplate.value.name" placeholder="Nama pemeriksaan">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="un">Satuan</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'un', name: 'Satuan' }">
             <input type="text" id="un" v-model="createTemplate.value.unit" placeholder="Satuan">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="nv">Nilai normal</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'nv', name: 'Nilai normal' }">
             <input type="text" id="nv" v-model="createTemplate.value.normal_value" placeholder="Nilai normal">
-          </div>
+          </InputData>
           <button type="submit">Create</button>
         </div>
       </form>

@@ -11,6 +11,8 @@ import type { Policlinics } from '@/types/policlinic';
 import { getDoctors } from '@/lib/api/doctor';
 import type { Doctors } from '@/types/doctor';
 import type { SearchLimit } from '@/types/response';
+import InputDataTime from '../Extras/InputDataTime.vue';
+import InputData from '../Extras/InputData.vue';
 
 // Define variabels
 const gl = new Date()
@@ -245,72 +247,35 @@ onBeforeMount(async () => {
 
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Rawat Jalan</h4>
         <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-          <div class="input-field">
-            <div class="cover">
-              <label for="regnum">Nomor Registrasi</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          <InputData :props="{ id: 'regnum', name: 'Nomor registrasi' }">
             <input type="text" id="regnum" v-model="registerData.register_number" placeholder="Nomor registrasi" required>
-          </div>
-
-          <div class="input-field">
-              <div class="cover">
-                <label for="date">Tanggal</label>
-              </div>
-              <span style="padding-right: 0.5rem;">:</span>
-              <div class="center">
-                <div class="center">
-                  <input type="datetime-local" step="1" id="date" v-model="registerData.register_date" placeholder="tanggal">
-                  <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
-                </div>
-              </div>
-            </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="care_num">Nomor Rawat</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputDataTime :props="{ id: 'dt1', name: 'Tanggal reg' }">
+            <input type="datetime-local" step="1" id="date" v-model="registerData.register_date" placeholder="tanggal">
+            <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
+          </InputDataTime>
+          <InputData :props="{ id: 'care_num', name: 'Nomor Rawat' }">
             <input type="text" id="care_num" v-model="registerData.care_number" placeholder="Nomor rawat" required>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="mr">Nomor Rekam Medis</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'mr', name: 'Nomor RM' }">
             <input type="text" id="mr" v-model="registerData.medical_record" placeholder="Nomor RM" required>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="pay">Cara Bayar</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'pay', name: 'Cara bayar' }">
             <select id="pay" v-model="registerData.payment_method">
               <option v-for="pay in payments" :key="pay.id" :value="pay.id">{{ pay.name }}</option>
             </select>
-          </div>
-
-          <div class="input-field">
-            <div class="cover">
-              <label for="poli">Poliklinik</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'poli', name: 'Poliklinik' }">
             <select id="poli" v-model="registerData.policlinic">
               <option v-for="poli in policlinics" :key="poli.id" :value="poli.id">{{ poli.name }}</option>
             </select>
-          </div>
-
-          <div class="input-field" v-if="doctors">
-            <div class="cover">
-              <label for="dr">Dokter</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'dr', name: 'Dokter' }" v-if="doctors">
             <select id="dr" v-model="registerData.doctor">
               <option v-for="doc in doctors" :key="doc.id" :value="doc.id">{{ doc.name }}</option>
             </select>
-          </div>
+          </InputData>
+
         </div>
 
         <div>
@@ -325,18 +290,12 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-on:submit.prevent="handleGetSearchPatient()">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari pasien</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="search">Cari</label>
-            </div>
-            <input type="text" id="search" v-model="search.search" placeholder="no RM/Nama Pasien">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="limit">Limit</label>
-            </div>
-            <input type="number" id="limit" v-model="search.limit" placeholder="limit data">
-          </div>
+          <InputData :props="{ id: 'sc', name: 'Cari' }">
+            <input type="text" id="sc" v-model="search.search" placeholder="Nama pemeriksaan">
+          </InputData>
+          <InputData :props="{ id: 'lm', name: 'Limit' }">
+            <input type="number" v-model="search.limit" id="lm" placeholder="limit">
+          </InputData>
           <button>Cari</button>
         </div>
       </form>
@@ -379,30 +338,18 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-on:submit.prevent="handleGetRegister">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari pasien Rawat Jalan</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="date1">Tanggal</label>
-            </div>
-            <input type="datetime-local" step="1" id="date1" v-model="date1" placeholder="tanggal">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="date2">s.d</label>
-            </div>
-            <input type="datetime-local" step="1" id="date2" v-model="date2" placeholder="tanggal">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="search1">Cari</label>
-            </div>
-            <input type="text" id="search1" v-model="search2.search" placeholder="No rawat/Nama Pasien">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="limit2">Limit</label>
-            </div>
-            <input type="number" id="limit2" v-model="search2.limit" placeholder="limit data">
-          </div>
+          <InputData :props="{ id: 'dt1', name: 'Tanggal awal' }">
+            <input type="datetime-local" step="1" id="dt1" v-model="date1" placeholder="tanggal">
+          </InputData>
+          <InputData :props="{ id: 'dt2', name: 'Tanggal akhir' }">
+            <input type="datetime-local" step="1" id="dt2" v-model="date2" placeholder="tanggal">
+          </InputData>
+          <InputData :props="{ id: 'sc1', name: 'Cari' }">
+            <input type="text" id="sc" v-model="search2.search" placeholder="No Rawat/Nama pasien">
+          </InputData>
+          <InputData :props="{ id: 'lm1', name: 'Limit' }">
+            <input type="number" v-model="search2.limit" id="lm1" placeholder="limit">
+          </InputData>
           <button>Cari</button>
         </div>
       </form>

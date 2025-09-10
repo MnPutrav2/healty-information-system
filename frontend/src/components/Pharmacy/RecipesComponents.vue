@@ -5,6 +5,8 @@ import { formatDatetime, viewedDateTime } from '@/lib/formatDate';
 import type { RecipeType, RecipeData, Drug, DetailRecipe, RecipeForRequest, RecipesForRequest, RecipeCompoundForRequest, RecipeCompound, ValidateTypeRecipe, HandoverTypeRecipe } from '@/types/pharmacy';
 import type { SearchLimit } from '@/types/response';
 import { nextTick, onBeforeMount, reactive, ref } from 'vue';
+import InputData from '../Extras/InputData.vue';
+import InputDataTime from '../Extras/InputDataTime.vue';
 
 
 // Define variabel
@@ -335,18 +337,12 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-on:submit.prevent="handleGetRecipeData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari resep</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="dt1">Tanggal awal</label>
-            </div>
+          <InputData :props="{ id: 'dt1', name: 'Tanggal awal' }">
             <input type="datetime-local" step="1" id="dt1" v-model="firstDateSearch" placeholder="tanggal">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="dt2">Tanggal akhir</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'dt2', name: 'Tanggal akhir' }">
             <input type="datetime-local" step="1" id="dt2" v-model="lastDateSearch" placeholder="tanggal">
-          </div>
+          </InputData>
           <button type="submit">Cari</button>
         </div>
       </form>
@@ -401,15 +397,10 @@ onBeforeMount(async () => {
         <form class="form-data-custom" v-on:submit.prevent="handleValidateRecipe">
           <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Validasi resep</h4>
           <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="dt1">Tanggal validasi</label>
-              </div>
-              <div class="center">
-                <input type="datetime-local" step="1" id="dt1" v-model="realtimeDate" placeholder="tanggal">
-                <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
-              </div>
-            </div>
+            <InputDataTime :props="{ id: 'dt1', name: 'Tanggal validasi' }">
+              <input type="datetime-local" step="1" id="dt1" v-model="realtimeDate" placeholder="tanggal">
+              <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
+            </InputDataTime>
             <button type="submit">Validasi</button>
           </div>
         </form>
@@ -446,30 +437,18 @@ onBeforeMount(async () => {
                           </div>
                         </div>
                       </div>
-                      <div style="padding: 0.5rem;" v-if="drug.recipe_type != 'compound'">
-                        <div style="margin-bottom: 0.5rem;">
-                          <label for="atp">Aturan pakai</label>
-                        </div>
+                      <InputData :props="{ id: 'atp', name: 'Aturan pakai' }" v-if="drug.recipe_type != 'compound'">
                         <input type="text" id="atp" v-model="addDrugUse[index]" placeholder="Aturan pakai" required>
-                      </div>
-                      <div style="padding: 0.5rem;">
-                        <div style="margin-bottom: 0.5rem;">
-                          <label for="jml">{{ drug.recipe_type == 'compound' ? 'Kandungan' : 'Jumlah' }}</label>
-                        </div>
-                        <input type="number" id="jml" v-model="addDrugValue[index]" :placeholder="drug.recipe_type == 'compound' ? 'Kandungan' : 'jumlah'" required>
-                      </div>
-                      <div style="padding: 0.5rem;">
-                        <div style="margin-bottom: 0.5rem;">
-                          <label for="emb">Embalase</label>
-                        </div>
+                      </InputData>
+                      <InputData :props="{ id: 'jml', name: 'Jumlah' }">
+                        <label for="jml">{{ drug.recipe_type == 'compound' ? 'Kandungan' : 'Jumlah' }}</label>
+                      </InputData>
+                      <InputData :props="{ id: 'emb', name: 'Embalase' }">
                         <input type="number" id="emb" v-model="addDrugEmbalming[index]" placeholder="embalase">
-                      </div>
-                      <div style="padding: 0.5rem;">
-                        <div style="margin-bottom: 0.5rem;">
-                          <label for="tsl">Tuslah</label>
-                        </div>
+                      </InputData>
+                      <InputData :props="{ id: 'tsl', name: 'Tuslah' }">
                         <input type="number" id="tsl" v-model="addDrugTuslah[index]" placeholder="tuslah">
-                      </div>
+                      </InputData>
                     </div>
                   </form>
                 </td>

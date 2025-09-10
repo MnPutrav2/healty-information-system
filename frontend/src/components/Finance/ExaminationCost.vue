@@ -3,6 +3,7 @@ import { createExamination, deleteExamination, getExamination, updateExamination
 import type { ExaminationCost } from '@/types/finance';
 import type { ResponseError, ResponseSuccess, SearchLimit } from '@/types/response';
 import { reactive, ref } from 'vue';
+import InputData from '../Extras/InputData.vue';
 
 const examinationData = reactive<ExaminationCost>({
   id: "",
@@ -122,45 +123,27 @@ function editExamination(data: ExaminationCost) {
       <form class="form-data-custom" v-on:submit.prevent="handleCreateExaminationData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Buat data pemeriksaan</h4>
         <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="id">ID</label>
-            </div>
+          <InputData :props="{ id: 'id', name: 'ID' }">
             <input type="text" id="id" v-model="examinationData.id" placeholder="ID">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="nm">Nama pemeriksaan</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'nm', name: 'Nama pemeriksaan' }">
             <input type="text" id="nm" v-model="examinationData.examination_name" placeholder="Nama pemeriksaan">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="by">Cara bayar</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'by', name: 'Cara bayar' }">
             <select id="by" v-model="examinationData.payment_method">
               <option value="UMUM">UMUM</option>
               <option value="BPJS">BPJS</option>
             </select>
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="dr">Biaya dokter</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'dr', name: 'Biaya dokter' }">
             <input type="number" id="dr" v-model="examinationData.doctor_cost" placeholder="Biaya dokter">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="pr">Biaya perawat</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'pr', name: 'Biaya perawat' }">
             <input type="number" id="pr" v-model="examinationData.nurse_cost" placeholder="Biaya perawat">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="ma">Manajement</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'ma', name: 'Manajement' }">
             <input type="number" id="ma" v-model="examinationData.management_cost" placeholder="Biaya manajement">
-          </div>
+          </InputData>
         </div>
         <div style="padding-left: 1rem;">
           <button type="submit">Create</button>
@@ -173,18 +156,12 @@ function editExamination(data: ExaminationCost) {
       <form class="form-data-custom" v-on:submit.prevent="handleGetExamination">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Data Pemeriksaan</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="sc">Cari</label>
-            </div>
+          <InputData :props="{ id: 'sc', name: 'Cari' }">
             <input type="text" id="sc" v-model="search.search" placeholder="Nama pemeriksaan">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="lm">Limit</label>
-            </div>
+          </InputData>
+          <InputData :props="{ id: 'lm', name: 'Limit' }">
             <input type="number" v-model="search.limit" id="lm" placeholder="limit">
-          </div>
+          </InputData>
           <button type="submit">Cari</button>
         </div>
       </form>
@@ -217,10 +194,10 @@ function editExamination(data: ExaminationCost) {
                 <div class="menu" v-if="dropOpen[index]">
                   <ul>
                     <li>
-                        <button @click="handleDeleteExamination(data.id); dropOpen[index] = false">Delete</button>
+                        <button class="button-action" @click="handleDeleteExamination(data.id); dropOpen[index] = false">Delete</button>
                     </li>
                     <li>
-                        <button @click="editExamination(data), dropOpen[index] = false, update = true">Update</button>
+                        <button class="button-action" @click="editExamination(data), dropOpen[index] = false, update = true">Update</button>
                     </li>
                   </ul>
                 </div>

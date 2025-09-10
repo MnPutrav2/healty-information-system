@@ -9,6 +9,7 @@ import type { ExaminationCost } from '@/types/finance';
 import type { ResponseError, ResponseSuccess, SearchLimit } from '@/types/response';
 import { onBeforeMount, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import InputData from '../Extras/InputData.vue';
 
 const doctors = ref<Doctors[]>([])
 const route = useRoute()
@@ -131,14 +132,11 @@ onBeforeMount(async () => {
       <div style="padding-top: 2rem; padding-bottom: 2rem;">
         <form class="form-data-custom" v-on:submit.prevent="">
           <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="dr">Dokter</label>
-              </div>
+            <InputData :props="{ id: 'dr', name: 'Dokter' }">
               <select id="dr" v-model="examinationAdd.doctor_id">
                 <option v-for="doctor in doctors" :key="doctor.id" :value="doctor.id">{{ doctor.name }}</option>
               </select>
-            </div>
+            </InputData>
             <button>Save</button>
           </div>
         </form>
@@ -177,18 +175,12 @@ onBeforeMount(async () => {
       <div style="padding-top: 2rem; padding-bottom: 2rem;">
         <form class="form-data-custom" v-on:submit.prevent="handleGetExamination">
           <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="nr">Cari nama tindakan</label>
-              </div>
-              <input type="text" id="nr" v-model="search.search" placeholder="cari pemeriksaan">
-            </div>
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="lm">Limit</label>
-              </div>
+            <InputData :props="{ id: 'sc', name: 'Cari nama tindakan' }">
+              <input type="text" id="sc" v-model="search.search" placeholder="Tindakan">
+            </InputData>
+            <InputData :props="{ id: 'lm', name: 'Limit' }">
               <input type="number" v-model="search.limit" id="lm" placeholder="limit">
-            </div>
+            </InputData>
             <button>Find</button>
           </div>
         </form>

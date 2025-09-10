@@ -6,6 +6,7 @@ import type { Drug, RecipeCompound, RecipeCompoundForRequest } from '@/types/pha
 import { formatDatetime } from '@/lib/formatDate';
 import { recipeNumber } from '@/lib/careNumber';
 import type { SearchLimit } from '@/types/response';
+import InputData from '../Extras/InputData.vue';
 
 // Define variabels
 const props = defineProps(['data'])
@@ -191,30 +192,18 @@ onBeforeMount(async () => {
       <div style="padding-top: 2rem; padding-bottom: 2rem;">
         <form class="form-data-custom" v-on:submit.prevent="handleCreateRecipe">
           <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="mr">Nomor rawat</label>
-              </div>
+            <InputData :props="{ id: 'mr', name: 'Nomor rawat' }">
               <input type="text" id="mr" v-model="recipeRequest.care_number" readonly placeholder="no rawat">
-            </div>
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="ss">Nomor resep</label>
-              </div>
+            </InputData>
+            <InputData :props="{ id: 'ss', name: 'Nomor resep' }">
               <input type="text" id="ss" v-model="recipeRequest.recipe_number" placeholder="resep">
-            </div>
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="ck">Timpa resep</label>
-              </div>
+            </InputData>
+            <InputData :props="{ id: 'ck', name: 'Timpa resep' }">
               <input type="checkbox" id="ck" v-model="recipeType" placeholder="resep">
-            </div>
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="da">Tanggal resep</label>
-              </div>
+            </InputData>
+            <InputData :props="{ id: 'da', name: 'Tanggal resep' }">
               <input type="datetime-local" id="da" step="1" v-model="recipeRequest.date" placeholder="resep">
-            </div>
+            </InputData>
             <button>Save</button>
           </div>
         </form>
@@ -225,24 +214,15 @@ onBeforeMount(async () => {
       <div style="padding-top: 2rem; padding-bottom: 2rem;">
         <form class="form-data-custom" v-on:submit.prevent="handleCreateRecipeCompound">
           <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="nr">Nama racikan</label>
-              </div>
+            <InputData :props="{ id: 'nr', name: 'Nama racikan' }">
               <input type="text" id="nr" v-model="recipeCompound.recipe_name" placeholder="nama racikan">
-            </div>
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="xx">Jumlah</label>
-              </div>
+            </InputData>
+            <InputData :props="{ id: 'xx', name: 'Jumlah' }">
               <input type="number" id="xx" v-model="recipeCompound.value" placeholder="jumlah">
-            </div>
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="d">Aturan pakai</label>
-              </div>
+            </InputData>
+            <InputData :props="{ id: 'd', name: 'Aturan pakai' }">
               <input type="text" id="d" v-model="recipeCompound.use" placeholder="aturan pakai">
-            </div>
+            </InputData>
             <button>Save</button>
           </div>
         </form>
@@ -314,18 +294,12 @@ onBeforeMount(async () => {
         <form class="form-data-custom" v-on:submit.prevent="handleGetDrugData">
           <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari Obat</h4>
           <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="nm">Nama racikan</label>
-              </div>
+            <InputData :props="{ id: 'nm', name: 'Nama racikan' }">
               <input type="text" id="ns" v-model="indexName" readonly placeholder="Nama obat">
-            </div>
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="dt1">Nama obat</label>
-              </div>
+            </InputData>
+            <InputData :props="{ id: 'dt1', name: 'Nama obat' }">
               <input type="text" id="dt1" v-model="searchDrug" placeholder="Nama obat">
-            </div>
+            </InputData>
             <button>Cari</button>
           </div>
         </form>

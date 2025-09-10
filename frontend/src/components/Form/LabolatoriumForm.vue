@@ -4,6 +4,7 @@ import { formatDatetime } from '@/lib/formatDate'
 import { labNumber } from '@/lib/labNumber'
 import type { LabsType, LabTypeRequest } from '@/types/labolatorium'
 import { onBeforeMount, reactive, ref, watch } from 'vue'
+import InputData from '../Extras/InputData.vue'
 
 // Define variabel
 
@@ -93,24 +94,15 @@ onBeforeMount(async () => {
       <div style="padding-top: 2rem; padding-bottom: 2rem;">
         <form class="form-data-custom" v-on:submit.prevent="handleCreateLabRequest">
           <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="mr">Nomor rawat</label>
-              </div>
+            <InputData :props="{ id: 'mr', name: 'Nomor rawat' }">
               <input type="text" id="mr" v-model="labDataForRequest.care_number" readonly placeholder="no rawat">
-            </div>
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="ss">Nomor permintaan</label>
-              </div>
+            </InputData>
+            <InputData :props="{ id: 'ss', name: 'Nomor permintaan' }">
               <input type="text" id="ss" v-model="labDataForRequest.lab_id" placeholder="permintaan">
-            </div>
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="da">Tanggal permintaan</label>
-              </div>
+            </InputData>
+            <InputData :props="{ id: 'da', name: 'Tanggal permintaan' }">
               <input type="datetime-local" v-model="labDataForRequest.date" id="da" step="1" placeholder="resep">
-            </div>
+            </InputData>
             <button>Save</button>
           </div>
         </form>
@@ -143,12 +135,9 @@ onBeforeMount(async () => {
       <div style="padding-top: 2rem; padding-bottom: 2rem;">
         <form class="form-data-custom">
           <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <div style="padding: 0.5rem;">
-              <div style="margin-bottom: 0.5rem;">
-                <label for="nr">Cari nama pemeriksaan</label>
-              </div>
+            <InputData :props="{ id: 'nr', name: 'Cari nama pemeriksaan' }">
               <input type="text" v-model="search" id="nr" placeholder="cari pemeriksaan">
-            </div>
+            </InputData>
             <button>Find</button>
           </div>
         </form>
