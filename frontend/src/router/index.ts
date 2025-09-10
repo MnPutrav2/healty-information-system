@@ -13,6 +13,7 @@ import Recipes from '@/components/Pharmacy/RecipesComponents.vue'
 import LabolatoriumData from '@/components/Labolatorium/LabolatoriumData.vue'
 import LabolatoriumExamination from '@/components/Labolatorium/LabolatoriumExamination.vue'
 import ExaminationCost from '@/components/Finance/ExaminationCost.vue'
+import EmployeeData from '@/components/HumanResource/EmployeeData.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -102,7 +103,18 @@ const router = createRouter({
             {
               path: 'examination-cost',
               name: 'examination-cost',
-              component:  ExaminationCost
+              component: ExaminationCost
+            }
+          ]
+        },
+        {
+          path: 'human-resource',
+          name: 'human-resource',
+          children: [
+            {
+              path: 'employees',
+              name: 'employees',
+              component: EmployeeData
             }
           ]
         }
