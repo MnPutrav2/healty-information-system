@@ -11,7 +11,7 @@ import (
 
 type AuthRepository interface {
 	CheckUserToken() error
-	CreateSessionToken(user string, pass string) uuid.UUID
+	CreateSessionToken(id string) uuid.UUID
 	CreatePatientSessionToken(user string, pass string) uuid.UUID
 	CheckSessionToken(token string) int
 	CheckPatientSessionToken(token string) int
@@ -56,11 +56,11 @@ func (q *authRepository) CheckUserToken() error {
 	return nil
 }
 
-func (q *authRepository) CreateSessionToken(us string, pass string) uuid.UUID {
+func (q *authRepository) CreateSessionToken(id string) uuid.UUID {
 	var user models.User
 	tm := time.Now()
 	h := tm.Add(6 * time.Hour).Format("2006-01-02 15:04:05")
-	err := q.sql.QueryRow("SELECT users.id, users.username, users.role FROM users WHERE users.username = $1 AND users.password = $2", us, pass).Scan(&user.ID, &user.Username, &user.Role)
+	err := q.sql.QueryRow("SELECT users.id, users.username, users.role FROM users WHERE users.id = $1", id).Scan(&user.ID, &user.Username, &user.Role)
 	if err != nil {
 		panic(err.Error())
 	}

@@ -9,9 +9,9 @@ import (
 	"github.com/google/uuid"
 )
 
-func SessionToken(sql *sql.DB, us string, pas string) uuid.UUID {
+func SessionToken(sql *sql.DB, id string) uuid.UUID {
 	authRepo := repository.NewAuthRepository(sql)
-	token := authRepo.CreateSessionToken(us, pas)
+	token := authRepo.CreateSessionToken(id)
 
 	return token
 }
