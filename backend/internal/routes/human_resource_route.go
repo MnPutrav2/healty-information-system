@@ -33,3 +33,19 @@ func Employee(w http.ResponseWriter, r *http.Request, db *sql.DB, path string) {
 	}
 
 }
+
+func Users(w http.ResponseWriter, r *http.Request, db *sql.DB, path string) {
+
+	if !pkg.RequestHeader(w, r) {
+		return
+	}
+
+	switch r.Method {
+	case "POST":
+		controllers.AddUserLogin(w, r, db, path)
+
+	default:
+		helper.ResponseError(w, "", "method not allowed", "method not allowed : 400", 400, path)
+	}
+
+}

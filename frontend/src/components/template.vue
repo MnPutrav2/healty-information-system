@@ -1,84 +1,62 @@
+<script setup lang="ts">
+import InputData from '@/components/Extras/InputData.vue';
+
+</script>
+
 <template>
   <section class="anim-slide" ref="pages">
-    <h3 style="margin: 0.5rem;">Data Pemeriksaan</h3>
-    <div style="padding-top: 2rem; padding-bottom: 2rem;" class="bottom-line">
-      <form class="form-data-custom">
-        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Buat data pemeriksaan labolatorium</h4>
+    <h3 style="margin: 0.5rem;">Data Pegawai</h3>
+    <div style="padding-top: 0.5rem; padding-bottom: 1rem;" class="bottom-line">
+      <form class="form-data-custom" v-on:submit.prevent="">
+        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Tambah pegawai</h4>
         <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="id">ID pemeriksaan</label>
-            </div>
-            <input type="text" id="id" placeholder="ID pemeriksaan">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="nm">Nama pemeriksaan</label>
-            </div>
-            <input type="text" id="nm" placeholder="Nama pemeriksaan">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="prd">Biaya perujuk</label>
-            </div>
-            <input type="number" id="prd" placeholder="Biaya perujuk">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="pr">Biaya petugas</label>
-            </div>
-            <input type="number" id="pr" placeholder="Biaya petugas">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="ma">Manajement</label>
-            </div>
-            <input type="number" id="ma" placeholder="Biaya manajement">
-          </div>
-          <div>
-            <button type="submit">Create</button>
-          </div>
+          <InputData :props="{id: 'id', name: 'ID pegawai'}">
+            <input type="text" id="id" placeholder="ID pemeriksaan" required>
+          </InputData>
+        </div>
+        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Action</h4>
+        <div>
+          <button type="button">Reset</button>
+          <button type="submit">Add</button>
         </div>
       </form>
     </div>
 
-    <!-- Search -->
-    <div style="padding-top: 2rem; padding-bottom: 2rem;">
+    <div>
       <form class="form-data-custom">
-        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Data Obat</h4>
+        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari data pegawai</h4>
         <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="sc">Cari</label>
-            </div>
-            <input type="text" id="sc" placeholder="Nama obat">
-          </div>
-          <div style="padding: 0.5rem;">
-            <div style="margin-bottom: 0.5rem;">
-              <label for="lm">Limit</label>
-            </div>
-            <input type="number" id="lm" placeholder="limit">
-          </div>
+          <InputData :props="{id: 'nv', name: 'Nama pegawai'}">
+            <input type="text" id="nv" placeholder="Nama pegawai">
+          </InputData>
+          <InputData :props="{id: 'l', name: 'Limit'}">
+            <input type="number" id="l"  placeholder="Limit">
+          </InputData>
           <button type="submit">Cari</button>
         </div>
       </form>
     </div>
 
-    <!-- Data -->
     <div style="width: 100%; overflow-x: scroll; overflow-y: scroll; height: 20rem; scrollbar-width: thin;" class="bottom-line">
       <table class="table-custom">
         <thead>
           <tr>
-            <td>No</td>
+            <td>ID pegawai</td>
+            <td>Nama</td>
+            <td>Jenis kelamin</td>
+            <td>Tempat, tanggal lahir</td>
+            <td>Status menikah</td>
+            <td>Alamat</td>
+            <td>NIK</td>
+            <td>No BPJS</td>
+            <td>No NPWP</td>
+            <td>Nomor telepon</td>
+            <td>Email</td>
+            <td>Action</td>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-          </tr>
-        </tbody>
+
       </table>
     </div>
-
   </section>
 </template>

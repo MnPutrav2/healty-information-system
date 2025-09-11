@@ -219,12 +219,13 @@ onBeforeMount(async () => {
           <InputData :props="{ id: 'ma', name: 'Manajement' }">
             <input type="number" id="ma" v-model="createLabolatorium.management" placeholder="Biaya manajement">
           </InputData>
-          <div>
+        </div>
+        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Action</h4>
+        <div>
             <button type="button" @click="resetForm">Reset</button>
             <button type="button" @click="handleUpdateLabData" v-if="open">Update</button>
             <button type="submit" v-if="!open">Create</button>
           </div>
-        </div>
       </form>
     </div>
 

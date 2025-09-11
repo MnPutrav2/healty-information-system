@@ -5,6 +5,7 @@ import type { EmployeeData } from '@/types/hr';
 import type { ResponseError, ResponseSuccess, SearchLimit } from '@/types/response';
 import { nextTick, onBeforeMount, reactive, ref } from 'vue';
 import InputData from '../Extras/InputData.vue';
+import router from '@/router';
 
 const open = ref<boolean>(false)
 const dropOpenTemplate = ref<boolean[]>([])
@@ -24,7 +25,8 @@ const employeeReq = reactive<EmployeeData>({
   bpjs: "",
   npwp: "",
   phone_number: "",
-  email: ""
+  email: "",
+  status: false
 })
 const search = reactive<SearchLimit>({
   search: "",
@@ -139,6 +141,10 @@ function resetForm() {
   employeeReq.email = ""
 }
 
+function base64encode(data: string, data2: string): string {
+  return btoa(`${data}|${data2}`)
+}
+
 onBeforeMount(async () => {
   await handleGetEmployee()
 })
@@ -197,12 +203,13 @@ onBeforeMount(async () => {
           <InputData :props="{id: 'em', name: 'Email'}">
             <input type="email" v-model="employeeReq.email" id="em" placeholder="Email" required>
           </InputData>
-          <div>
-            <button type="button" @click="resetForm">Reset</button>
-            <button type="button" v-if="update" @click="handleUpdateEmployee">Update</button>
-            <button type="submit" v-else @click="handleAddEmployee">Add</button>
-            <button type="button" @click="open = !open">Close</button>
-          </div>
+        </div>
+        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Action</h4>
+        <div>
+          <button type="button" @click="resetForm">Reset</button>
+          <button type="button" v-if="update" @click="handleUpdateEmployee">Update</button>
+          <button type="submit" v-else @click="handleAddEmployee">Add</button>
+          <button type="button" @click="open = !open">Close</button>
         </div>
       </form>
     </div>
@@ -237,6 +244,7 @@ onBeforeMount(async () => {
             <td>No NPWP</td>
             <td>Nomor telepon</td>
             <td>Email</td>
+            <td>Status</td>
             <td>Action</td>
           </tr>
         </thead>
@@ -253,6 +261,7 @@ onBeforeMount(async () => {
             <td>{{ data.npwp }}</td>
             <td>{{ data.phone_number }}</td>
             <td>{{ data.email }}</td>
+            <td :style="data.status ? 'color: lightgreen' : 'color: red'">{{ data.status ? 'Aktif' : 'Non aktif' }}</td>
             <td style="position: relative;">
               <div class="drop-down">
                   <button class="act" @click="dropOpenTemplate[index] = !dropOpenTemplate[index]">:</button>
@@ -263,6 +272,9 @@ onBeforeMount(async () => {
                           </li>
                           <li>
                             <button class="button-action" @click="editEmployee(data, index)">Update</button>
+                          </li>
+                          <li>
+                            <button class="button-action" @click="router.push(`/human-resource/user-access?id=${base64encode(data.id, data.name)}`)">Add user access</button>
                           </li>
                       </ul>
                   </div>

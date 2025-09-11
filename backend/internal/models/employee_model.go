@@ -13,4 +13,12 @@ type EmployeeData struct {
 	NPWP        string `json:"npwp"`
 	PhoneNumber string `json:"phone_number"`
 	Email       string `json:"email"`
+	Status      bool   `json:"status"`
+}
+
+type UserReq struct {
+	ID       string `json:"id"`
+	EmpID    string `json:"employee_id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }

@@ -14,13 +14,16 @@ import (
 func GetUserStatus(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -42,13 +45,16 @@ func GetUserStatus(w http.ResponseWriter, r *http.Request, sql *sql.DB, path str
 func UserLogout(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -69,13 +75,16 @@ func UserLogout(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string
 func GetUserPages(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---

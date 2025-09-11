@@ -11,7 +11,17 @@ import ExaminationForm from './Form/ExaminationForm.vue'
 const router = useRouter()
 const route = useRoute()
 const query = ref<Query>(route.query)
-const name: string | null = localStorage.getItem("name")
+
+// Define variabels
+const getUserData = defineProps(['data'])
+const userData = ref<userData>(getUserData.data)
+
+// External type
+interface userData {
+  id: number,
+  name: string,
+  gender: string
+}
 
 interface pathData {
   group: string
@@ -112,7 +122,7 @@ watch(route, () => {
         <div class="center" style="padding: 0.5rem; justify-content: flex-start">
           <div class="icon"></div>
           <div style="margin-left: 0.5rem;">
-            <p style="font-weight: bold;">{{ name }}</p>
+            <p style="font-weight: bold;">{{ userData.name }}</p>
             <button @click="logout" class="logout">Logout</button>
           </div>
         </div>

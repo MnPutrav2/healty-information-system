@@ -145,6 +145,7 @@ function editExamination(data: ExaminationCost) {
             <input type="number" id="ma" v-model="examinationData.management_cost" placeholder="Biaya manajement">
           </InputData>
         </div>
+        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Action</h4>
         <div style="padding-left: 1rem;">
           <button type="submit">Create</button>
           <button type="button" v-if="update" @click="handleUpdateExamination">Update</button>

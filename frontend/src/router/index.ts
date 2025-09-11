@@ -14,6 +14,7 @@ import LabolatoriumData from '@/components/Labolatorium/LabolatoriumData.vue'
 import LabolatoriumExamination from '@/components/Labolatorium/LabolatoriumExamination.vue'
 import ExaminationCost from '@/components/Finance/ExaminationCost.vue'
 import EmployeeData from '@/components/HumanResource/EmployeeData.vue'
+import UserAccess from '@/components/Finance/UserAccess.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -115,6 +116,11 @@ const router = createRouter({
               path: 'employees',
               name: 'employees',
               component: EmployeeData
+            },
+            {
+              path: 'user-access',
+              name: 'user-access',
+              component:  UserAccess
             }
           ]
         }

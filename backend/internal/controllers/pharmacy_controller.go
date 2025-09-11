@@ -15,13 +15,16 @@ import (
 func CreateDrugDatas(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -50,13 +53,16 @@ func CreateDrugDatas(w http.ResponseWriter, r *http.Request, sql *sql.DB, path s
 func GetDrugDatas(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -84,13 +90,16 @@ func GetDrugDatas(w http.ResponseWriter, r *http.Request, sql *sql.DB, path stri
 func UpdateDrugDatas(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -119,13 +128,16 @@ func UpdateDrugDatas(w http.ResponseWriter, r *http.Request, sql *sql.DB, path s
 func DeleteDrugDatas(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -151,13 +163,16 @@ func DeleteDrugDatas(w http.ResponseWriter, r *http.Request, sql *sql.DB, path s
 func GetDistributor(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -180,13 +195,16 @@ func GetDistributor(w http.ResponseWriter, r *http.Request, sql *sql.DB, path st
 func CreateRecipe(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -221,13 +239,16 @@ func CreateRecipe(w http.ResponseWriter, r *http.Request, sql *sql.DB, path stri
 func CreateRecipeCompound(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -262,13 +283,16 @@ func CreateRecipeCompound(w http.ResponseWriter, r *http.Request, sql *sql.DB, p
 func GetRecipes(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -295,13 +319,16 @@ func GetRecipes(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string
 func GetDrugRecipes(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -327,13 +354,16 @@ func GetDrugRecipes(w http.ResponseWriter, r *http.Request, sql *sql.DB, path st
 func DeleteDrugRecipes(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -361,13 +391,16 @@ func DeleteDrugRecipes(w http.ResponseWriter, r *http.Request, sql *sql.DB, path
 func ValidateRecipe(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -399,13 +432,16 @@ func ValidateRecipe(w http.ResponseWriter, r *http.Request, sql *sql.DB, path st
 func RecipeHandover(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---

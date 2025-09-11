@@ -14,13 +14,16 @@ import (
 func CreateAmbulatoryCarePatient(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -45,13 +48,16 @@ func CreateAmbulatoryCarePatient(w http.ResponseWriter, r *http.Request, sql *sq
 func DeleteAmbulatoryCarePatient(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -74,13 +80,16 @@ func DeleteAmbulatoryCarePatient(w http.ResponseWriter, r *http.Request, sql *sq
 func GetAmbulatoryCarePatient(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -104,13 +113,16 @@ func GetAmbulatoryCarePatient(w http.ResponseWriter, r *http.Request, sql *sql.D
 func UpdateAmbulatoryCarePatient(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---

@@ -77,6 +77,7 @@ func main() {
 
 	// Human Resource API
 	handlerPath("/human-resource/employees", routes.Employee, db)
+	handlerPath("/human-resource/users", routes.Users, db)
 
 	// Logs
 	handler("GET", "/logs", controllers.GetLogs, db)

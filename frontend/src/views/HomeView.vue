@@ -50,7 +50,7 @@ onBeforeMount(async () => {
 
 <template>
   <main class="center">
-    <MenuComponents>
+    <MenuComponents :data="userData">
       <section class="anim-slide cover">
         <NavbarComponents />
         <div class="scroll">

@@ -40,7 +40,7 @@ func RequestHeader(w http.ResponseWriter, r *http.Request) bool {
 	return true
 }
 
-func CheckUserLogin(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) TokenId {
+func CheckUserLogin(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string, rol string) TokenId {
 	// Check Header
 	auth := r.Header.Get("Authorization")
 	if !CheckAuthorization(w, path, sql, auth) {
@@ -56,8 +56,17 @@ func CheckUserLogin(w http.ResponseWriter, r *http.Request, sql *sql.DB, path st
 	// --- ---
 
 	var id string
-	if err := sql.QueryRow("SELECT users.id FROM users INNER JOIN session_token ON users.id = session_token.users_id WHERE session_token.token = $1", split[1]).Scan(&id); err != nil {
+	var role string
+	if err := sql.QueryRow("SELECT users.id, users.role FROM users INNER JOIN session_token ON users.id = session_token.users_id WHERE session_token.token = $1", split[1]).Scan(&id, &role); err != nil {
 		return TokenId{Token: "", Id: "", Status: "authorization"}
+	}
+
+	if role == "Admin" {
+		return TokenId{Token: split[1], Id: id, Status: "success"}
+	}
+
+	if role != rol {
+		return TokenId{Token: "", Id: "", Status: "not_allowed"}
 	}
 
 	return TokenId{Token: split[1], Id: id, Status: "success"}

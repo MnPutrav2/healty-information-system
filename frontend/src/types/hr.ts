@@ -11,4 +11,21 @@ export interface EmployeeData {
   npwp: string;
   phone_number: string;
   email: string;
+  status: boolean
+}
+
+export interface UserReq {
+  id: string | undefined
+  employee_id: string
+  username: string
+  password: string
+}
+
+export interface PathAccess {
+  name: string,
+  child: PathAccessChild[]
+}
+
+export interface PathAccessChild {
+  name: string,
 }

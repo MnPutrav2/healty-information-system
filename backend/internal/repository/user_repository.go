@@ -46,7 +46,7 @@ func (q *userRepository) GetUserPagesData(token string, path string) ([]models.U
 			panic(err.Error())
 		}
 
-		resPage, err := q.sql.Query("SELECT user_pages.name, user_pages.path FROM user_pages WHERE user_pages.path_group = $1", p)
+		resPage, err := q.sql.Query("SELECT user_pages.name, user_pages.path FROM user_pages WHERE user_pages.path_group = $1 AND user_pages.users_id = $2", p, id)
 		if err != nil {
 			panic(err.Error())
 		}

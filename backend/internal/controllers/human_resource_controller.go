@@ -15,13 +15,16 @@ import (
 func AddEmployeeData(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "Admin")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -50,13 +53,16 @@ func AddEmployeeData(w http.ResponseWriter, r *http.Request, sql *sql.DB, path s
 func GetEmployeeData(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "User")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -83,13 +89,16 @@ func GetEmployeeData(w http.ResponseWriter, r *http.Request, sql *sql.DB, path s
 func DeleteEmployeeData(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "Admin")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -114,13 +123,16 @@ func DeleteEmployeeData(w http.ResponseWriter, r *http.Request, sql *sql.DB, pat
 func UpdateEmployeeData(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
 	// ---- Needed for every request ---
 
-	val := pkg.CheckUserLogin(w, r, sql, path)
+	val := pkg.CheckUserLogin(w, r, sql, path, "Admin")
 	switch val.Status {
 	case "authorization":
 		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
 		return
 	case "error_format":
 		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
 		return
 	}
 	// ---- Needed for every request ---
@@ -147,4 +159,42 @@ func UpdateEmployeeData(w http.ResponseWriter, r *http.Request, sql *sql.DB, pat
 	}
 
 	helper.ResponseSuccess(w, val.Id, "update data success", path, s, 200)
+}
+
+func AddUserLogin(w http.ResponseWriter, r *http.Request, sql *sql.DB, path string) {
+	// ---- Needed for every request ---
+
+	val := pkg.CheckUserLogin(w, r, sql, path, "Admin")
+	switch val.Status {
+	case "authorization":
+		helper.ResponseWarn(w, "", "unauthorization", "unauthorization", 401, path)
+		return
+	case "error_format":
+		helper.ResponseWarn(w, "", "unauthorization error format", "unauthorization error format", 400, path)
+		return
+	case "not_allowed":
+		helper.ResponseWarn(w, "", "you are not allowed to access this resource", "resource not allowed", 400, path)
+		return
+	}
+	// ---- Needed for every request ---
+
+	exam, err := helper.GetUserRequest(w, r)
+	if err != nil {
+		helper.ResponseError(w, val.Id, "invalid request body", err.Error(), 400, path)
+		return
+	}
+
+	examRepo := repository.NewHumanResourceRepository(sql)
+	if err := examRepo.AddUserLogin(exam); err != nil {
+		helper.ResponseError(w, val.Id, "failed create data", err.Error(), 404, path)
+		return
+	}
+
+	s, err := json.Marshal(models.ResponseDataSuccess{Status: "success", Response: "add"})
+	if err != nil {
+		helper.ResponseWarn(w, val.Id, "error server", err.Error(), 500, path)
+		return
+	}
+
+	helper.ResponseSuccess(w, val.Id, "add user login success", path, s, 201)
 }

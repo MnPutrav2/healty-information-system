@@ -32,7 +32,8 @@ CREATE TABLE employees (
     bpjs VARCHAR(20),
     npwp VARCHAR(20),
     phone_number VARCHAR(13),
-    email VARCHAR(50)
+    email VARCHAR(50),
+    status BOOLEAN
 );
 
 CREATE TABLE doctors (
@@ -92,7 +93,7 @@ CREATE TABLE ambulatory_care (
 CREATE TABLE users (
     id VARCHAR(6) PRIMARY KEY,
     employee_id VARCHAR(6) REFERENCES employees(id),
-    username VARCHAR(20),
+    username VARCHAR(20) UNIQUE,
     role role_type DEFAULT 'User',
     password VARCHAR(100)
 );

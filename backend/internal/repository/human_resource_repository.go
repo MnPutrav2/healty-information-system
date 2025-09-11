@@ -2,8 +2,10 @@ package repository
 
 import (
 	"database/sql"
+	"os"
 
 	"github.com/MnPutrav2/healty-information-system/backend/internal/models"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type HumanResourceRepository interface {
@@ -11,6 +13,7 @@ type HumanResourceRepository interface {
 	GetEmployeeData(qs string, l int) ([]models.EmployeeData, error)
 	DeleteEmployeeData(id string) error
 	UpdateEmployeeData(data models.EmployeeData, id string) error
+	AddUserLogin(data models.UserReq) error
 }
 
 type humanResourceRepository struct {
@@ -22,7 +25,7 @@ func NewHumanResourceRepository(sql *sql.DB) HumanResourceRepository {
 }
 
 func (q *humanResourceRepository) AddEmployeeData(data models.EmployeeData) error {
-	_, err := q.sql.Exec("INSERT INTO employees(id, name, gender, birth_place, birth_date, wedding, address, nik, bpjs, npwp, phone_number, email) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", &data.ID, &data.Name, &data.Gender, &data.BirthPlace, &data.BirthDate, &data.Wedding, &data.Address, &data.NIK, &data.BPJS, &data.NPWP, &data.PhoneNumber, &data.Email)
+	_, err := q.sql.Exec("INSERT INTO employees(id, name, gender, birth_place, birth_date, wedding, address, nik, bpjs, npwp, phone_number, email, status) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", &data.ID, &data.Name, &data.Gender, &data.BirthPlace, &data.BirthDate, &data.Wedding, &data.Address, &data.NIK, &data.BPJS, &data.NPWP, &data.PhoneNumber, &data.Email, 0)
 	if err != nil {
 		return err
 	}
@@ -31,7 +34,7 @@ func (q *humanResourceRepository) AddEmployeeData(data models.EmployeeData) erro
 }
 
 func (q *humanResourceRepository) GetEmployeeData(qs string, l int) ([]models.EmployeeData, error) {
-	res, err := q.sql.Query("SELECT id, name, gender, birth_place, birth_date, wedding, address, nik, bpjs, npwp, phone_number, email FROM employees WHERE name LIKE $1 LIMIT $2", qs, l)
+	res, err := q.sql.Query("SELECT id, name, gender, birth_place, birth_date, wedding, address, nik, bpjs, npwp, phone_number, email, status FROM employees WHERE name LIKE $1 ORDER BY id ASC LIMIT $2", qs, l)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +44,7 @@ func (q *humanResourceRepository) GetEmployeeData(qs string, l int) ([]models.Em
 	for res.Next() {
 		var data models.EmployeeData
 
-		err := res.Scan(&data.ID, &data.Name, &data.Gender, &data.BirthPlace, &data.BirthDate, &data.Wedding, &data.Address, &data.NIK, &data.BPJS, &data.NPWP, &data.PhoneNumber, &data.Email)
+		err := res.Scan(&data.ID, &data.Name, &data.Gender, &data.BirthPlace, &data.BirthDate, &data.Wedding, &data.Address, &data.NIK, &data.BPJS, &data.NPWP, &data.PhoneNumber, &data.Email, &data.Status)
 
 		if err != nil {
 			return nil, err
@@ -63,7 +66,30 @@ func (q *humanResourceRepository) DeleteEmployeeData(id string) error {
 }
 
 func (q *humanResourceRepository) UpdateEmployeeData(data models.EmployeeData, id string) error {
-	_, err := q.sql.Exec("UPDATE employees SET id = $1, name = $2, gender = $3, birth_place = $4, birth_date = $5, wedding = $6, address = $7, nik = $8, bpjs = $9, npwp = $10, phone_number = $11, email = $12 WHERE id = $13", data.ID, data.Name, data.Gender, data.BirthPlace, data.BirthDate, data.Wedding, data.Address, data.NIK, data.BPJS, data.NPWP, data.PhoneNumber, data.Email, id)
+	_, err := q.sql.Exec("UPDATE employees SET id = $1, name = $2, gender = $3, birth_place = $4, birth_date = $5, wedding = $6, address = $7, nik = $8, bpjs = $9, npwp = $10, phone_number = $11, email = $12, status = $13 WHERE id = $14", data.ID, data.Name, data.Gender, data.BirthPlace, data.BirthDate, data.Wedding, data.Address, data.NIK, data.BPJS, data.NPWP, data.PhoneNumber, data.Email, data.Status, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (q *humanResourceRepository) AddUserLogin(data models.UserReq) error {
+
+	pepper := os.Getenv("SECRET_STRING")
+	secure := data.Password + pepper
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(secure), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	_, err = q.sql.Exec("INSERT INTO users(id, employee_id, username, role, password) VALUES($1, $2, $3, $4, $5)", data.ID, data.EmpID, data.Username, "User", hash)
+	if err != nil {
+		return err
+	}
+
+	_, err = q.sql.Exec("UPDATE employees SET status = $1 WHERE id = $2", true, data.EmpID)
 	if err != nil {
 		return err
 	}
