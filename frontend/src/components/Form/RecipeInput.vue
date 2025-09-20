@@ -7,9 +7,10 @@ import type { Recipe, RecipeForRequest, Drug, RecipesForRequest } from '@/types/
 import { recipeNumber } from '@/lib/careNumber';
 import type { SearchLimit } from '@/types/response';
 import InputData from '../Extras/InputData.vue';
+import { useRoute } from 'vue-router';
 
 // Define variabels
-const props = defineProps(['data'])
+const route = useRoute()
 const recipes = ref<Recipe[]>([])
 const recipesForRequest = ref<RecipesForRequest[]>([])
 const recipeType = ref(false)
@@ -21,7 +22,7 @@ const tuslahMap = reactive<Record<string, number>>({})
 const date = new Date()
 const searchDrug = ref<string>("")
 const recipeRequest = reactive<RecipeForRequest>({
-  care_number: props.data,
+  care_number: String(route.query.careNumber),
   recipe_number: "",
   date: formatDatetime(date, null),
   validate: formatDatetime(date, "00:00:00"),

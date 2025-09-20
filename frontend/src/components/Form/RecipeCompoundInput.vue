@@ -7,9 +7,10 @@ import { formatDatetime } from '@/lib/formatDate';
 import { recipeNumber } from '@/lib/careNumber';
 import type { SearchLimit } from '@/types/response';
 import InputData from '../Extras/InputData.vue';
+import { useRoute } from 'vue-router';
 
 // Define variabels
-const props = defineProps(['data'])
+const route = useRoute()
 const drugs = ref<Drug[]>([])
 const recipeType = ref(false)
 const date = new Date()
@@ -24,7 +25,7 @@ const pageScroll = ref<HTMLElement | null>()
 const searchDrug = ref<string>("")
 const menuDataRecipe = ref<boolean[]>([])
 const recipeRequest = reactive<RecipeCompoundForRequest>({
-  care_number: props.data,
+  care_number: String(route.query.careNumber),
   recipe_number: "",
   date: formatDatetime(date, null),
   validate: formatDatetime(date, "00:00:00"),

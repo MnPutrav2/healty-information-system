@@ -5,15 +5,16 @@ import { labNumber } from '@/lib/labNumber'
 import type { LabsType, LabTypeRequest } from '@/types/labolatorium'
 import { onBeforeMount, reactive, ref, watch } from 'vue'
 import InputData from '../Extras/InputData.vue'
+import { useRoute } from 'vue-router'
 
 // Define variabel
 
-const props = defineProps(['data'])
+const route = useRoute()
 const date = new Date()
 const search = ref<string>("")
 const labsDataRequest = ref<LabsType[]>([])
 const labDataForRequest = reactive<LabTypeRequest>({
-  care_number: props.data,
+  care_number: String(route.query.careNumber),
   date: formatDatetime(date, null),
   lab_id:"0001000",
   officer_id: "A00001",

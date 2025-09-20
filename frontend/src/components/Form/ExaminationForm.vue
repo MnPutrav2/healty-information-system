@@ -15,7 +15,7 @@ const doctors = ref<Doctors[]>([])
 const route = useRoute()
 const date = new Date()
 const examinationAdd = reactive<ExaminationReq>({
-  care_number: String(route.query.careNum),
+  care_number: String(route.query.careNumber),
   examination: "",
   doctor_id: "",
   nurse_id: "",
@@ -102,7 +102,7 @@ async function handleGetExamination() {
 
 async function handleGetExaminationData() {
   try {
-    const response: Response = await getExaminationData(String(route.query.careNum))
+    const response: Response = await getExaminationData(String(route.query.careNumber))
 
     if(response.status === 200){
       examinationData.value = await response.json()
@@ -133,6 +133,12 @@ onBeforeMount(async () => {
         <div style="padding-top: 2rem; padding-bottom: 2rem;">
           <form class="form-data-custom" v-on:submit.prevent="">
             <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+              <div style="padding: 0.5rem;">
+                <div style="padding: 0.5rem;">
+                  <label style="font-size: var(--font-size);" for="dr">Dokter</label>
+                </div>
+                <slot></slot>
+              </div>
               <InputData :props="{ id: 'dr', name: 'Dokter' }">
                 <select id="dr" v-model="examinationAdd.doctor_id">
                   <option v-for="doctor in doctors" :key="doctor.id" :value="doctor.id">{{ doctor.name }}</option>

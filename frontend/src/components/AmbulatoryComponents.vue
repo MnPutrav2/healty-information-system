@@ -510,39 +510,49 @@ onBeforeMount(async () => {
 
     <template #content>
 
-        <RecipeInput style="position: fixed; transition: all 0.2s linear;" :data="route.query.careNumber" v-if="menuOpen[0]">
+      <div style="position: fixed; transition: all 0.2s linear;" v-if="menuOpen[0]">
+        <RecipeInput>
           <template #btn-close>
             <button class="act" @click="menuOpen[0] = false">X</button>
           </template>
         </RecipeInput>
+      </div>
 
-        <RecipeCompoundInput style="position: fixed; transition: all 0.2s linear;" :data="route.query.careNumber" v-if="menuOpen[1]">
+      <div style="position: fixed; transition: all 0.2s linear;" v-if="menuOpen[1]">
+        <RecipeCompoundInput>
           <template #btn-close>
             <button class="act" @click="menuOpen[1] = false">X</button>
           </template>
         </RecipeCompoundInput>
+      </div>
 
-        <LabolatoriumForm style="position: fixed; transition: all 0.2s linear;" :data="route.query.careNumber" v-if="menuOpen[2]">
+      <div style="position: fixed; transition: all 0.2s linear;" v-if="menuOpen[2]">
+        <LabolatoriumForm>
           <template #btn-close>
             <button class="act" @click="menuOpen[2] = false">X</button>
           </template>
         </LabolatoriumForm>
+      </div>
 
-        <ExaminationForm style="position: fixed; transition: all 0.2s linear;" :data="route.query.careNumber" v-if="menuOpen[3]">
+      <div style="position: fixed; transition: all 0.2s linear;" v-if="menuOpen[3]">
+        <ExaminationForm>
           <template #btn-close>
             <button class="act" @click="menuOpen[3] = false">X</button>
           </template>
         </ExaminationForm>
+      </div>
 
     </template>
 
     <template #button>
-      <template v-if="route.query.careNumber">
-        <button @click="menuOpen[0] = true">Open</button>
-        <button @click="menuOpen[1] = true">Open</button>
-        <button @click="menuOpen[2] = true">Open</button>
-        <button @click="menuOpen[3] = true">Open</button>
-      </template>
+      <div v-if="route.query.careNumber">
+        <ul class="menu-list">
+          <li><button @click="menuOpen[0] = true">Input resep</button></li>
+          <li><button @click="menuOpen[1] = true">Input resep racikan</button></li>
+          <li><button @click="menuOpen[2] = true">Input laboratorium</button></li>
+          <li><button @click="menuOpen[3] = true">Input tindakan</button></li>
+        </ul>
+      </div>
     </template>
    </MedicalRecordMenu>
   <!-- Modal -->
