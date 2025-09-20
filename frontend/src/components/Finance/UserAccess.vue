@@ -56,7 +56,7 @@ async function handleAddUser() {
     <div style="padding-top: 0.5rem; padding-bottom: 1rem;" class="bottom-line">
       <form class="form-data-custom" v-on:submit.prevent="handleAddUser">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Buat akses user</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{id: 'usid', name: 'User ID'}">
             <input type="text" id="usid" v-model="userReq.id" maxlength="6" placeholder="User ID">
           </InputData>
@@ -71,7 +71,7 @@ async function handleAddUser() {
           </InputData>
         </div>
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Action</h4>
-        <div>
+        <div style="margin: 1rem;">
           <button type="submit">Add</button>
         </div>
       </form>

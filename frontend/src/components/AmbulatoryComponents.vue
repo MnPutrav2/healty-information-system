@@ -10,8 +10,19 @@ import type { SearchLimit } from '@/types/response';
 import router from '@/router';
 import InputData from './Extras/InputData.vue';
 import InputDataTime from './Extras/InputDataTime.vue';
+import MedicalRecordMenu from './Extras/MedicalRecordMenu.vue';
+import RecipeInput from './Form/RecipeInput.vue'
+import RecipeCompoundInput from './Form/RecipeCompoundInput.vue'
+import LabolatoriumForm from './Form/LabolatoriumForm.vue'
+import ExaminationForm from './Form/ExaminationForm.vue'
+import { useRoute } from 'vue-router';
 
 // Define variabels
+const openModal = ref<boolean>(false)
+const menuOpen = ref<boolean[]>([])
+const route = useRoute()
+
+
 const user = defineProps(['data'])
 const gl = new Date()
 const date1 = ref<string>(formatDatetime(gl, "00:00:00"))
@@ -239,7 +250,7 @@ onBeforeMount(async () => {
         <form class="form-data-custom" v-on:submit.prevent="handleCreateAmbulatory">
 
           <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Input Pemeriksaan</h4>
-          <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+          <div class="responsive-grid" style="padding-left: 1rem;">
             <InputData :props="{ id: 'cm', name: 'Nomor rawat' }">
               <input type="text" id="cm" v-model="ambulatoryData.care_number" placeholder="Nomor rawat" required>
             </InputData>
@@ -271,7 +282,7 @@ onBeforeMount(async () => {
           </div>
 
           <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Pemeriksaan</h4>
-          <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+          <div class="responsive-grid-sec" style="padding-left: 1rem;">
             <InputData :props="{ id: 'complaint', name: 'Subject' }">
               <textarea id="complaint" v-model="ambulatoryData.complaint" placeholder="keluhan pasien"></textarea>
             </InputData>
@@ -293,7 +304,7 @@ onBeforeMount(async () => {
           </div>
 
           <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Pemeriksaan</h4>
-          <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+          <div class="responsive-grid" style="padding-left: 1rem;">
             <InputData :props="{ id: 'bt', name: 'Suhu Badan' }">
               <input type="number" id="bt" v-model="ambulatoryData.body_temperature" placeholder="suhu badan">
             </InputData>
@@ -333,7 +344,7 @@ onBeforeMount(async () => {
     <div style="padding-top: 2rem; padding-bottom: 2rem;">
       <form class="form-data-custom" v-on:submit.prevent="handleGetAmbulatoryData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Data Pemeriksaan Pasien</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'dt1', name: 'Tanggal awal' }">
             <input type="datetime-local" step="1" id="dt1" v-model="dateSearch1" placeholder="date">
           </InputData>
@@ -343,7 +354,9 @@ onBeforeMount(async () => {
           <InputData :props="{ id: 'sc', name: 'Cari' }">
             <input type="text" id="sc" v-model="searchAmbulatory" placeholder="No Rawat/Nama Pasien">
           </InputData>
-          <button>Cari</button>
+        </div>
+        <div style="margin: 1rem;">
+          <button type="submit">Cari</button>
         </div>
       </form>
     </div>
@@ -418,7 +431,7 @@ onBeforeMount(async () => {
     <div style="padding-top: 2rem; padding-bottom: 2rem;">
       <form class="form-data-custom" v-on:submit.prevent="handleGetRegister">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari pasien Rawat Jalan</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'dtd1', name: 'Tanggal awal' }">
             <input type="datetime-local" step="1" id="dt1" v-model="date1" placeholder="date">
           </InputData>
@@ -431,7 +444,9 @@ onBeforeMount(async () => {
           <InputData :props="{ id: 'lm', name: 'Limit' }">
             <input type="number" v-model="search.limit" id="lm" placeholder="limit">
           </InputData>
-          <button>Cari</button>
+        </div>
+        <div style="margin: 1rem;">
+          <button type="submit">Cari</button>
         </div>
       </form>
     </div>
@@ -472,7 +487,7 @@ onBeforeMount(async () => {
                       <button class="button-action" @click="handleInputAmbulatory(reg.care_number, reg.medical_record); menuDataPatient[index] = false; ambInput = true">Input</button>
                     </li>
                     <li>
-                        <button class="button-action" @click="router.push(`?careNum=${reg.care_number}`);menuDataPatient[index] = false">Menu</button>
+                        <button class="button-action" @click="router.push(`?careNumber=${reg.care_number}`);menuDataPatient[index] = false;openModal = true">Menu</button>
                     </li>
                     <li>
                       <button class="button-action" @click="handleUpdateStatus(reg.care_number, 'Sudah'); menuDataPatient[index] = false">Sudah periksa</button>
@@ -489,6 +504,48 @@ onBeforeMount(async () => {
       </table>
     </div>
   </section>
+
+  <!-- Modal -->
+   <MedicalRecordMenu>
+
+    <template #content>
+
+        <RecipeInput style="position: fixed; transition: all 0.2s linear;" :data="route.query.careNumber" v-if="menuOpen[0]">
+          <template #btn-close>
+            <button class="act" @click="menuOpen[0] = false">X</button>
+          </template>
+        </RecipeInput>
+
+        <RecipeCompoundInput style="position: fixed; transition: all 0.2s linear;" :data="route.query.careNumber" v-if="menuOpen[1]">
+          <template #btn-close>
+            <button class="act" @click="menuOpen[1] = false">X</button>
+          </template>
+        </RecipeCompoundInput>
+
+        <LabolatoriumForm style="position: fixed; transition: all 0.2s linear;" :data="route.query.careNumber" v-if="menuOpen[2]">
+          <template #btn-close>
+            <button class="act" @click="menuOpen[2] = false">X</button>
+          </template>
+        </LabolatoriumForm>
+
+        <ExaminationForm style="position: fixed; transition: all 0.2s linear;" :data="route.query.careNumber" v-if="menuOpen[3]">
+          <template #btn-close>
+            <button class="act" @click="menuOpen[3] = false">X</button>
+          </template>
+        </ExaminationForm>
+
+    </template>
+
+    <template #button>
+      <template v-if="route.query.careNumber">
+        <button @click="menuOpen[0] = true">Open</button>
+        <button @click="menuOpen[1] = true">Open</button>
+        <button @click="menuOpen[2] = true">Open</button>
+        <button @click="menuOpen[3] = true">Open</button>
+      </template>
+    </template>
+   </MedicalRecordMenu>
+  <!-- Modal -->
 </template>
 
 <style scoped>

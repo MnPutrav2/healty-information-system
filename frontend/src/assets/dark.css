@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Manrope-Regular";
+  src: url('../assets/fonts/Manrope-Regular.ttf');
+}
+
 :root {
   --background-color:  rgb(23, 23, 23);
   --background-color-transparent: rgba(138, 138, 138, 0.307);
@@ -9,8 +14,9 @@
   --scroll-color: black transparent;
   --table-color: rgba(129, 129, 129, 0.057);
   --font-size: 0.7rem;
-  --font-family: sans-serif;
+  --font-family: "Manrope-Regular";
   --validate: rgb(0, 255, 0);
   --invalidate: rgb(255, 0, 0);
   --mascot-bg: rgba(157, 157, 157, 0.092);
 }
+

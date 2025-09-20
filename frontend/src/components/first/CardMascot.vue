@@ -42,18 +42,18 @@ const days = ref<Day[]>([
 <template>
   <div style="width: 100%; padding-top: 1.5rem;" class="center">
     <div class="card">
-      <div class="center">
-        <div style="margin: 1rem; width: 50%;">
+      <div class="responsive-flex">
+        <div class="responsive-width">
           <h1><slot></slot></h1>
           <h3 style="margin-top: 1rem;">Medika Permata Bunda</h3>
           <div class="mini-card">
             <div class="center">
-              <p class="day" :style="date.getDay() == day.id ? 'color:white; border:1px solid white' : ''" v-for="day in days" :key="day.id">{{ day.name }}</p>
+              <p class="day" v-for="day in days" :key="day.id" :style="date.getDay() == day.id ? 'color:white; border:1px solid white' : ''">{{ day.name }}</p>
             </div>
             <h2></h2>
           </div>
         </div>
-        <div style="width: 50%" class="center">
+        <div class="center responsive-width">
           <img class="mascout-img" src="../../assets/images/mascout.png" alt="">
         </div>
       </div>
@@ -62,13 +62,6 @@ const days = ref<Day[]>([
 </template>
 
 <style scoped>
-.card {
-  width: 95%;
-  background-image: linear-gradient(60deg, var(--mascot-bg), rgba(0, 195, 255, 0.167));
-  border: 1px solid var(--line-color-transparent);
-  border-radius: 1rem;
-}
-
 h1 {
   font-size: 1.5rem;
 }

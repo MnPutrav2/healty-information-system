@@ -336,13 +336,15 @@ onBeforeMount(async () => {
     <div style="padding-top: 2rem; padding-bottom: 2rem;" class="bottom-line">
       <form class="form-data-custom" v-on:submit.prevent="handleGetRecipeData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari resep</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'dt1', name: 'Tanggal awal' }">
             <input type="datetime-local" step="1" id="dt1" v-model="firstDateSearch" placeholder="tanggal">
           </InputData>
           <InputData :props="{ id: 'dt2', name: 'Tanggal akhir' }">
             <input type="datetime-local" step="1" id="dt2" v-model="lastDateSearch" placeholder="tanggal">
           </InputData>
+        </div>
+        <div style="margin: 1rem;">
           <button type="submit">Cari</button>
         </div>
       </form>

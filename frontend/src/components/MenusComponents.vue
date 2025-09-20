@@ -2,19 +2,15 @@
 import { UserLogout, UserPages } from '@/lib/api/user'
 import { onBeforeMount, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import MedicalRecordMenu from './MedicalRecordMenu.vue'
-import RecipeInput from './Form/RecipeInput.vue'
-import RecipeCompoundInput from './Form/RecipeCompoundInput.vue'
-import LabolatoriumForm from './Form/LabolatoriumForm.vue'
-import ExaminationForm from './Form/ExaminationForm.vue'
 
 const router = useRouter()
 const route = useRoute()
 const query = ref<Query>(route.query)
 
 // Define variabels
-const getUserData = defineProps(['data'])
+const getUserData = defineProps(['data', 'menu'])
 const userData = ref<userData>(getUserData.data)
+const openNav = ref<boolean>(getUserData.menu)
 
 // External type
 interface userData {
@@ -100,12 +96,6 @@ async function logout() {
   }
 }
 
-const activeMenu = ref<string | null>(null)
-
-function toggleMenu(menuName: string) {
-  activeMenu.value = activeMenu.value === menuName ? null : menuName
-}
-
 onBeforeMount(async () => {
   await userPages()
 })
@@ -113,10 +103,41 @@ onBeforeMount(async () => {
 watch(route, () => {
   query.value = route.query
 })
+
+watch(() => getUserData.menu, (newVal) => {
+  openNav.value = newVal
+})
 </script>
 
 <template>
-  <section class="anim-slide" style="width: 15%; height: 100vh; border-right: 1px solid var(--line-color-transparent);">
+  <section class="anim-slide responsive-navbar phone" :style="openNav ? 'width: 100%' : 'width: 0%'">
+    <div class="profil-card">
+      <div style="height: 90%; border-bottom: 1px solid var(--line-color-transparent)">
+        <div class="center" style="padding: 0.5rem; justify-content: flex-start">
+          <div class="icon"></div>
+          <div style="margin-left: 0.5rem;">
+            <p style="font-weight: bold;">{{ userData.name }}</p>
+            <button @click="logout" class="logout">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width: 100%; height: 80%;" class="scroll">
+      <ul>
+        <li>
+          <button class="menu-button" :class="route.path == '/' ? 'menu-button-active' : ''" @click="routing('/')">Home</button>
+        </li>
+        <li v-for="(path, index) in pathData" :key="index" class="path">
+          <details v-if="path.group != '-'">
+            <summary>{{ path.group }}</summary>
+            <button v-for="r in path.path" :key="r.name" class="menu-button" :class="route.path == r.path ? 'menu-button-active' : ''" @click="routing(r.path)">{{ r.name }}</button>
+          </details>
+          <button v-else v-for="r in path.path" :key="r.name" class="menu-button" :class="route.path == r.path ? 'menu-button-active' : ''" @click="routing(r.path)">{{ r.name }}</button>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section class="anim-slide responsive-navbar desktop">
     <div class="profil-card">
       <div style=" height: 90%; border-bottom: 1px solid var(--line-color-transparent)">
         <div class="center" style="padding: 0.5rem; justify-content: flex-start">
@@ -144,53 +165,7 @@ watch(route, () => {
     </div>
   </section>
 
-  <!-- Menu area -->
-   <RecipeInput style="position: fixed; transition: all 0.2s linear;" :data="query.careNum" v-if="activeMenu === 'resep'">
-      <template #btn-close>
-        <button class="act" @click="toggleMenu('resep')">X</button>
-      </template>
-    </RecipeInput>
-
-    <RecipeCompoundInput style="position: fixed; transition: all 0.2s linear;" :data="query.careNum" v-if="activeMenu === 'resep-racik'">
-      <template #btn-close>
-        <button class="act" @click="toggleMenu('resep-racik')">X</button>
-      </template>
-    </RecipeCompoundInput>
-
-    <LabolatoriumForm style="position: fixed; transition: all 0.2s linear;" :data="query.careNum" v-if="activeMenu === 'lab-input'">
-      <template #btn-close>
-        <button class="act" @click="toggleMenu('lab-input')">X</button>
-      </template>
-    </LabolatoriumForm>
-
-    <ExaminationForm style="position: fixed; transition: all 0.2s linear;" :data="query.careNum" v-if="activeMenu === 'exam-input'">
-      <template #btn-close>
-        <button class="act" @click="toggleMenu('exam-input')">X</button>
-      </template>
-    </ExaminationForm>
-  <!-- Menu area -->
-
   <slot></slot>
-  <MedicalRecordMenu v-if="route.path == '/ambulatory-care'">
-    <div style="margin-bottom: 1rem;">
-      <p style="margin-bottom: 0.5rem;">{{ query.careNum == '' ? 'Pilih pasien' : query.careNum }}</p>
-      <hr>
-    </div>
-    <template v-if="query.careNum != null">
-      <div>
-        <button style="background-color: transparent; color: var(--font-color); border: none;" @click="toggleMenu('resep')">Input Resep</button>
-      </div>
-      <div style="margin-top: 1rem;">
-        <button style="background-color: transparent; color: var(--font-color); border: none;" @click="toggleMenu('resep-racik')">Input Resep Racikan</button>
-      </div>
-      <div style="margin-top: 1rem;">
-        <button style="background-color: transparent; color: var(--font-color); border: none;" @click="toggleMenu('lab-input')">Input Permintaan LAB</button>
-      </div>
-      <div style="margin-top: 1rem;">
-        <button style="background-color: transparent; color: var(--font-color); border: none;" @click="toggleMenu('exam-input')">Input Tindakan</button>
-      </div>
-    </template>
-  </MedicalRecordMenu>
 </template>
 
 <style scoped>

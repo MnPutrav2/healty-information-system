@@ -246,7 +246,7 @@ onBeforeMount(async () => {
       <form class="form-data-custom" v-on:submit.prevent="handleCreateRegister()">
 
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Rawat Jalan</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'regnum', name: 'Nomor registrasi' }">
             <input type="text" id="regnum" v-model="registerData.register_number" placeholder="Nomor registrasi" required>
           </InputData>
@@ -289,14 +289,16 @@ onBeforeMount(async () => {
     <div style="padding-top: 2rem; padding-bottom: 2rem;">
       <form class="form-data-custom" v-on:submit.prevent="handleGetSearchPatient()">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari pasien</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'sc', name: 'Cari' }">
             <input type="text" id="sc" v-model="search.search" placeholder="Nama pemeriksaan">
           </InputData>
           <InputData :props="{ id: 'lm', name: 'Limit' }">
             <input type="number" v-model="search.limit" id="lm" placeholder="limit">
           </InputData>
-          <button>Cari</button>
+        </div>
+        <div style="margin: 1rem;">
+          <button type="submit">Cari</button>
         </div>
       </form>
     </div>
@@ -337,7 +339,7 @@ onBeforeMount(async () => {
     <div style="padding-top: 2rem; padding-bottom: 2rem;">
       <form class="form-data-custom" v-on:submit.prevent="handleGetRegister">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari pasien Rawat Jalan</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'dt1', name: 'Tanggal awal' }">
             <input type="datetime-local" step="1" id="dt1" v-model="date1" placeholder="tanggal">
           </InputData>
@@ -350,7 +352,9 @@ onBeforeMount(async () => {
           <InputData :props="{ id: 'lm1', name: 'Limit' }">
             <input type="number" v-model="search2.limit" id="lm1" placeholder="limit">
           </InputData>
-          <button>Cari</button>
+        </div>
+        <div style="margin: 1rem">
+          <button type="submit">Cari</button>
         </div>
       </form>
     </div>

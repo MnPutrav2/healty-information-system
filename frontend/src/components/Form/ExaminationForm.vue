@@ -123,103 +123,107 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <section class="container center" >
-    <div class="cover2 scroll">
-      <div class="close-btn center">
-        <slot name="btn-close"></slot>
+  <teleport to='body'>
+    <section class="container center" >
+      <div class="cover2 scroll">
+        <div class="close-btn center">
+          <slot name="btn-close"></slot>
+        </div>
+
+        <div style="padding-top: 2rem; padding-bottom: 2rem;">
+          <form class="form-data-custom" v-on:submit.prevent="">
+            <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+              <InputData :props="{ id: 'dr', name: 'Dokter' }">
+                <select id="dr" v-model="examinationAdd.doctor_id">
+                  <option v-for="doctor in doctors" :key="doctor.id" :value="doctor.id">{{ doctor.name }}</option>
+                </select>
+              </InputData>
+              <button>Save</button>
+            </div>
+          </form>
+        </div>
+
+        <h4 style="margin-bottom: 1rem; margin-top: 1rem;">Tindakan</h4>
+        <hr>
+
+        <div style="width: 100%; height: 15rem; margin-top: 1rem" class="scroll">
+          <table class="table-custom" style="width: 100%">
+            <thead>
+              <tr>
+                <td>Action</td>
+                <td>Nama</td>
+                <td>Dokter</td>
+                <td>Perawat</td>
+                <td>Tanggal</td>
+                <td>Biaya</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="data in examinationData" :key="data.id">
+                <td>
+                  <button class="button-action" @click="handleDeleteExaminationData(data.id)">Delete</button>
+                </td>
+                <td>{{ data.examination }}</td>
+                <td>{{ data.doctor_name }}</td>
+                <td>{{ data.nurse_name }}</td>
+                <td>{{ viewedDateTime(data.date) }}</td>
+                <td>{{ data.total }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="padding-top: 2rem; padding-bottom: 2rem;">
+          <form class="form-data-custom" v-on:submit.prevent="handleGetExamination">
+            <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+              <InputData :props="{ id: 'sc', name: 'Cari nama tindakan' }">
+                <input type="text" id="sc" v-model="search.search" placeholder="Tindakan">
+              </InputData>
+              <InputData :props="{ id: 'lm', name: 'Limit' }">
+                <input type="number" v-model="search.limit" id="lm" placeholder="limit">
+              </InputData>
+              <button>Find</button>
+            </div>
+          </form>
+        </div>
+
+        <hr>
+
+        <div style="width: 100%; height: 15rem; margin-top: 1rem" class="scroll">
+          <table class="table-custom" style="width: 100%;">
+            <thead>
+              <tr>
+                <td>Action</td>
+                <td>Nama pemeriksaan</td>
+                <td>Cara bayar</td>
+                <td>Biaya dokter</td>
+                <td>Biaya perawat</td>
+                <td>Biaya management</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="data in examData" :key="data.id">
+                <td>
+                  <button class="button-action" @click="handleAddExamination(data.id)">Add</button>
+                </td>
+                <td>{{ data.examination_name }}</td>
+                <td>{{ data.payment_method }}</td>
+                <td>{{ data.doctor_cost }}</td>
+                <td>{{ data.nurse_cost }}</td>
+                <td>{{ data.management_cost }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      <div style="padding-top: 2rem; padding-bottom: 2rem;">
-        <form class="form-data-custom" v-on:submit.prevent="">
-          <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <InputData :props="{ id: 'dr', name: 'Dokter' }">
-              <select id="dr" v-model="examinationAdd.doctor_id">
-                <option v-for="doctor in doctors" :key="doctor.id" :value="doctor.id">{{ doctor.name }}</option>
-              </select>
-            </InputData>
-            <button>Save</button>
-          </div>
-        </form>
-      </div>
-
-      <h4 style="margin-bottom: 1rem; margin-top: 1rem;">Tindakan</h4>
-      <hr>
-
-      <div style="width: 100%; height: 15rem; margin-top: 1rem" class="scroll">
-        <table class="table-custom" style="width: 100%">
-          <thead>
-            <tr>
-              <td>Action</td>
-              <td>Nama</td>
-              <td>Dokter</td>
-              <td>Perawat</td>
-              <td>Tanggal</td>
-              <td>Biaya</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="data in examinationData" :key="data.id">
-              <td>
-                <button class="button-action" @click="handleDeleteExaminationData(data.id)">Delete</button>
-              </td>
-              <td>{{ data.examination }}</td>
-              <td>{{ data.doctor_name }}</td>
-              <td>{{ data.nurse_name }}</td>
-              <td>{{ viewedDateTime(data.date) }}</td>
-              <td>{{ data.total }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style="padding-top: 2rem; padding-bottom: 2rem;">
-        <form class="form-data-custom" v-on:submit.prevent="handleGetExamination">
-          <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <InputData :props="{ id: 'sc', name: 'Cari nama tindakan' }">
-              <input type="text" id="sc" v-model="search.search" placeholder="Tindakan">
-            </InputData>
-            <InputData :props="{ id: 'lm', name: 'Limit' }">
-              <input type="number" v-model="search.limit" id="lm" placeholder="limit">
-            </InputData>
-            <button>Find</button>
-          </div>
-        </form>
-      </div>
-
-      <hr>
-
-      <div style="width: 100%; height: 15rem; margin-top: 1rem" class="scroll">
-        <table class="table-custom" style="width: 100%;">
-          <thead>
-            <tr>
-              <td>Action</td>
-              <td>Nama pemeriksaan</td>
-              <td>Cara bayar</td>
-              <td>Biaya dokter</td>
-              <td>Biaya perawat</td>
-              <td>Biaya management</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="data in examData" :key="data.id">
-              <td>
-                <button class="button-action" @click="handleAddExamination(data.id)">Add</button>
-              </td>
-              <td>{{ data.examination_name }}</td>
-              <td>{{ data.payment_method }}</td>
-              <td>{{ data.doctor_cost }}</td>
-              <td>{{ data.nurse_cost }}</td>
-              <td>{{ data.management_cost }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+    </section>
+  </teleport>
 </template>
 
 <style scoped>
 .container {
+  inset: 0;
+  position: fixed;
   width: 100%;
   height: 100%;
   backdrop-filter: blur(2px);

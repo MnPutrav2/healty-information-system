@@ -4,7 +4,7 @@ import { createPatient, deletePatient, getCurrentMedicalRecord, getPatient, upda
 import { medicalRecord } from '@/lib/medicalRecordFormat';
 import { onBeforeMount, reactive, ref, watch } from 'vue'
 import type { Patient } from '@/types/patient';
-import { viewedDate } from '@/lib/formatDate';
+import { formatDate, viewedDate } from '@/lib/formatDate';
 import type { Address } from '@/types/register';
 import type { SearchLimit } from '@/types/response';
 import InputData from '../Extras/InputData.vue';
@@ -74,7 +74,7 @@ async function edit(patient: Patient) {
   edits.value?.scrollIntoView({behavior: 'smooth'})
   openReg.value = true
 
-  Object.assign(patientData, patient)
+  Object.assign(patientData, {...patient, birth_date: formatDate(new Date(Date.parse(patient.birth_date)))})
 }
 
 function saveProvince(prov: Address) {
@@ -106,29 +106,33 @@ function saveVillage(vil: Address) {
 }
 
 async function resetForm() {
-  await handleGetmedicalRecord()
+  try{
+    await handleGetmedicalRecord()
 
-  editAction.value = false
+    editAction.value = false
 
-  patientData.name = ''
-  patientData.gender = ''
-  patientData.wedding = ''
-  patientData.religion = ''
-  patientData.education = ''
-  patientData.birth_place = ''
-  patientData.birth_date = ''
-  patientData.work = ''
-  patientData.address = ''
-  patientData.village = 0
-  patientData.district = 0
-  patientData.regencie = 0
-  patientData.province = 0
-  patientData.nik = ''
-  patientData.bpjs = ''
-  patientData.phone_number = ''
-  patientData.parent_name = ''
-  patientData.relationship = ''
-  patientData.parent_gender = ''
+    patientData.name = ''
+    patientData.gender = ''
+    patientData.wedding = ''
+    patientData.religion = ''
+    patientData.education = ''
+    patientData.birth_place = ''
+    patientData.birth_date = ''
+    patientData.work = ''
+    patientData.address = ''
+    patientData.village = 0
+    patientData.district = 0
+    patientData.regencie = 0
+    patientData.province = 0
+    patientData.nik = ''
+    patientData.bpjs = ''
+    patientData.phone_number = ''
+    patientData.parent_name = ''
+    patientData.relationship = ''
+    patientData.parent_gender = ''
+  }catch(e){
+    console.log('error' + e)
+  }
 }
 
 // Handler functions
@@ -209,6 +213,7 @@ async function handleUpdatePatient() {
       await resetForm()
       await handleGetmedicalRecord()
       editAction.value = false
+      openReg.value = false
       alert("update data berhasil")
     } else {
       alert(json.errors)
@@ -251,7 +256,9 @@ watch(() => findProvince.value, () => {
   provincesDataSearch.value = results;
 });
 
-watch(() => patientData.address, async () => {
+watch(() => patientData.address, async (val) => {
+  if(!val) return;
+
   const response = await province()
   const json = await response.json()
 
@@ -276,7 +283,9 @@ watch(() => findRegencie.value, () => {
   regencieDataSearch.value = results;
 });
 
-watch(() => patientData.province, async () => {
+watch(() => patientData.province, async (val) => {
+  if(!val) return;
+
   const response = await regencie(patientData.province)
   const json = await response.json()
 
@@ -301,7 +310,9 @@ watch(() => findDistrict.value, () => {
   districtDataSearch.value = results;
 });
 
-watch(() => patientData.regencie, async () => {
+watch(() => patientData.regencie, async (val) => {
+  if(!val) return;
+
   const response = await district(patientData.regencie)
   const json = await response.json()
 
@@ -326,7 +337,9 @@ watch(() => findVillage.value, () => {
   villageDataSearch.value = results;
 });
 
-watch(() => patientData.district, async () => {
+watch(() => patientData.district, async (val) => {
+  if(!val) return;
+
   const response = await village(patientData.district)
   const json = await response.json()
 
@@ -352,11 +365,11 @@ onBeforeMount(async () => {
   <section class="anim-slide" ref="edits">
     <h3 style="margin: 0.5rem;">Registrasi Pasien</h3>
     <div style="margin-top: 0.5rem; margin-bottom: 1rem;" class="bottom-line">
-      <button @click="openReg = !openReg" v-if="!openReg" class="button-action" style="margin: 1rem;">Add patient</button>
+      <button @click="openReg = !openReg" v-if="!openReg" class="button-add">Add patient</button>
       <form v-else class="form-data-custom" v-on:submit.prevent="handleCreatePatientData">
 
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Data pasien</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'mr', name: 'Nomor rekam medis' }">
             <input type="text" id="mr" v-model="patientData.medical_record" placeholder="No RM" maxlength="6" required>
           </InputData>
@@ -403,7 +416,7 @@ onBeforeMount(async () => {
             <input type="text" id="birthplace" v-model="patientData.birth_place" placeholder="Tempat lahir" maxlength="20" required>
           </InputData>
           <InputData :props="{ id: 'birthdate', name: 'Tanggal lahir' }">
-            <input type="date" id="birthdate" v-model="patientData.birth_date" placeholder="Tanggal lahir" required>
+            <input type="date" step="1" id="birthdate" v-model="patientData.birth_date" placeholder="Tanggal lahir" required>
           </InputData>
           <InputData :props="{ id: 'work', name: 'Pekerjaan' }">
             <input type="text" id="work" v-model="patientData.work" placeholder="Pekerjaan" maxlength="20" required>
@@ -420,7 +433,7 @@ onBeforeMount(async () => {
         </div>
 
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Alamat</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'address', name: 'Alamat' }">
             <input type="text" id="address" v-model="patientData.address" placeholder="Alamat" required>
           </InputData>
@@ -463,7 +476,7 @@ onBeforeMount(async () => {
         </div>
 
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Data penanggung jawab</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'parent_name', name: 'Nama' }">
             <input type="text" id="parent_name" v-model="patientData.parent_name" placeholder="Nama Penanggung jawab" required>
           </InputData>
@@ -496,13 +509,15 @@ onBeforeMount(async () => {
     <div style="padding-top: 2rem; padding-bottom: 2rem;">
       <form class="form-data-custom" v-on:submit.prevent="handleGetSearchPatient">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari pasien</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'cr', name: 'No RM/Nama Pasien' }">
             <input type="text" id="cr" placeholder="No RM/Nama Pasien" v-model="search.search">
           </InputData>
           <InputData :props="{ id: 'limit1', name: 'Limit' }">
             <input type="number" id="limit1" placeholder="limit data" v-model="search.limit">
           </InputData>
+        </div>
+        <div style="margin: 1rem;">
           <button>Cari</button>
         </div>
       </form>

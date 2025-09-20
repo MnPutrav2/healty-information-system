@@ -16,10 +16,8 @@ defineProps<{
     <div style="padding: 0.5rem;">
       <label style="font-size: var(--font-size);" :for="props.id">{{ props.name }}</label>
     </div>
-    <div class="center">
-      <div class="center">
-        <slot></slot>
-      </div>
+    <div style="display: flex; align-items: center;">
+      <slot></slot>
     </div>
   </div>
 </template>

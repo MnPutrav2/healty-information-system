@@ -85,92 +85,96 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <section class="container center" >
-    <div class="cover2 scroll">
-      <div class="close-btn center">
-        <slot name="btn-close"></slot>
+  <teleport to='body'>
+    <section class="container center" >
+      <div class="cover2 scroll">
+        <div class="close-btn center">
+          <slot name="btn-close"></slot>
+        </div>
+
+        <div style="padding-top: 2rem; padding-bottom: 2rem;">
+          <form class="form-data-custom" v-on:submit.prevent="handleCreateLabRequest">
+            <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+              <InputData :props="{ id: 'mr', name: 'Nomor rawat' }">
+                <input type="text" id="mr" v-model="labDataForRequest.care_number" readonly placeholder="no rawat">
+              </InputData>
+              <InputData :props="{ id: 'ss', name: 'Nomor permintaan' }">
+                <input type="text" id="ss" v-model="labDataForRequest.lab_id" placeholder="permintaan">
+              </InputData>
+              <InputData :props="{ id: 'da', name: 'Tanggal permintaan' }">
+                <input type="datetime-local" v-model="labDataForRequest.date" id="da" step="1" placeholder="resep">
+              </InputData>
+              <button>Save</button>
+            </div>
+          </form>
+        </div>
+
+        <h4 style="margin-bottom: 1rem;">Pemeriksaan lab</h4>
+        <hr>
+
+        <div style="width: 100%; height: 15rem; margin-top: 1rem" class="scroll">
+          <table class="table-custom" style="width: 100%">
+            <thead>
+              <tr>
+                <td>Action</td>
+                <td>Nama</td>
+                <td>Harga</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="lab in labsDataRequest" :key="lab.id">
+                <td>
+                  <button class="button-action" @click="handleDeleteLabData(lab.id)">Delete</button>
+                </td>
+                <td>{{ lab.name }}</td>
+                <td>{{ lab.total }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="padding-top: 2rem; padding-bottom: 2rem;">
+          <form class="form-data-custom">
+            <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+              <InputData :props="{ id: 'nr', name: 'Cari nama pemeriksaan' }">
+                <input type="text" v-model="search" id="nr" placeholder="cari pemeriksaan">
+              </InputData>
+              <button>Find</button>
+            </div>
+          </form>
+        </div>
+
+        <hr>
+
+        <div style="width: 100%; height: 15rem; margin-top: 1rem" class="scroll">
+          <table class="table-custom" style="width: 100%">
+            <thead>
+              <tr>
+                <td>Action</td>
+                <td>Nama</td>
+                <td>Harga</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="lab in labDatas" :key="lab.id">
+                <td>
+                  <button class="button-action" @click="handleAddLabData(lab)">Add</button>
+                </td>
+                <td>{{ lab.name }}</td>
+                <td>{{ lab.total }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      <div style="padding-top: 2rem; padding-bottom: 2rem;">
-        <form class="form-data-custom" v-on:submit.prevent="handleCreateLabRequest">
-          <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <InputData :props="{ id: 'mr', name: 'Nomor rawat' }">
-              <input type="text" id="mr" v-model="labDataForRequest.care_number" readonly placeholder="no rawat">
-            </InputData>
-            <InputData :props="{ id: 'ss', name: 'Nomor permintaan' }">
-              <input type="text" id="ss" v-model="labDataForRequest.lab_id" placeholder="permintaan">
-            </InputData>
-            <InputData :props="{ id: 'da', name: 'Tanggal permintaan' }">
-              <input type="datetime-local" v-model="labDataForRequest.date" id="da" step="1" placeholder="resep">
-            </InputData>
-            <button>Save</button>
-          </div>
-        </form>
-      </div>
-
-      <h4 style="margin-bottom: 1rem;">Pemeriksaan lab</h4>
-      <hr>
-
-      <div style="width: 100%; height: 15rem; margin-top: 1rem" class="scroll">
-        <table class="table-custom" style="width: 100%">
-          <thead>
-            <tr>
-              <td>Action</td>
-              <td>Nama</td>
-              <td>Harga</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="lab in labsDataRequest" :key="lab.id">
-              <td>
-                <button class="button-action" @click="handleDeleteLabData(lab.id)">Delete</button>
-              </td>
-              <td>{{ lab.name }}</td>
-              <td>{{ lab.total }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style="padding-top: 2rem; padding-bottom: 2rem;">
-        <form class="form-data-custom">
-          <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <InputData :props="{ id: 'nr', name: 'Cari nama pemeriksaan' }">
-              <input type="text" v-model="search" id="nr" placeholder="cari pemeriksaan">
-            </InputData>
-            <button>Find</button>
-          </div>
-        </form>
-      </div>
-
-      <hr>
-
-      <div style="width: 100%; height: 15rem; margin-top: 1rem" class="scroll">
-        <table class="table-custom" style="width: 100%">
-          <thead>
-            <tr>
-              <td>Action</td>
-              <td>Nama</td>
-              <td>Harga</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="lab in labDatas" :key="lab.id">
-              <td>
-                <button class="button-action" @click="handleAddLabData(lab)">Add</button>
-              </td>
-              <td>{{ lab.name }}</td>
-              <td>{{ lab.total }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+    </section>
+  </teleport>
 </template>
 
 <style scoped>
 .container {
+  inset: 0;
+  position: fixed;
   width: 100%;
   height: 100%;
   backdrop-filter: blur(2px);

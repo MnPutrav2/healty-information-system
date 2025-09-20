@@ -43,7 +43,6 @@ async function login() {
       localStorage.setItem('token', json.token)
 
       router.push('/')
-      console.log(json.status)
     }else{
       const json: ResponseError = await response.json()
       alert(json.errors)
@@ -60,7 +59,7 @@ onBeforeMount(async () => {
 
 <template>
   <main class="center">
-    <section class="form-cover center" style="width: 30%;">
+    <section class="form-cover center login-page-left">
       <div class="anim-slide">
         <h3 style="margin: 0.5rem;">LOGIN</h3>
         <form v-on:submit.prevent="login" class="form-custom">
@@ -82,8 +81,8 @@ onBeforeMount(async () => {
         </form>
       </div>
     </section>
-    <div role="separator" aria-orientation="vertical" style="width: 1px; height: 95vh; background-color: var(--line-color);"></div>
-    <section class="form-cover center" style="width: 70%">
+    <div role="separator" class="desktop" aria-orientation="vertical" style="width: 1px; height: 95vh; background-color: var(--line-color);"></div>
+    <section class="form-cover center login-page-right">
       <div style="padding: 1rem;" class="anim-slide center">
         <div>
           <h1 style="margin-bottom: 1rem; font-size: 2rem;">Healty Information System</h1>

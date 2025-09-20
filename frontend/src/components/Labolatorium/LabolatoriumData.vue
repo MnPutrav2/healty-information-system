@@ -200,7 +200,7 @@ onBeforeMount(async () => {
     <div style="padding-top: 2rem; padding-bottom: 2rem;" class="bottom-line">
       <form class="form-data-custom" v-on:submit.prevent="handleCreateLabolatoriumData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Buat data pemeriksaan labolatorium</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'id', name: 'ID pemeriksaan' }">
             <input type="text" id="id" v-model="createLabolatorium.id" placeholder="ID pemeriksaan">
           </InputData>
@@ -222,10 +222,10 @@ onBeforeMount(async () => {
         </div>
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Action</h4>
         <div>
-            <button type="button" @click="resetForm">Reset</button>
-            <button type="button" @click="handleUpdateLabData" v-if="open">Update</button>
-            <button type="submit" v-if="!open">Create</button>
-          </div>
+          <button type="button" @click="resetForm">Reset</button>
+          <button type="button" @click="handleUpdateLabData" v-if="open">Update</button>
+          <button type="submit" v-if="!open">Create</button>
+        </div>
       </form>
     </div>
 
@@ -278,7 +278,7 @@ onBeforeMount(async () => {
     <div ref="pageScroll" v-if="labolatoriumTemplate == null || labolatoriumTemplate.length > 0">
       <form class="form-data-custom" v-on:submit.prevent="handleCreateLabolatoriumTemplate">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Template hasil</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'tn', name: 'Nama template pemeriksaan' }">
             <input type="text" id="tn" v-model="createTemplate.value.name" placeholder="Nama pemeriksaan">
           </InputData>
@@ -288,6 +288,8 @@ onBeforeMount(async () => {
           <InputData :props="{ id: 'nv', name: 'Nilai normal' }">
             <input type="text" id="nv" v-model="createTemplate.value.normal_value" placeholder="Nilai normal">
           </InputData>
+        </div>
+        <div style="margin: 1rem;">
           <button type="submit">Create</button>
         </div>
       </form>

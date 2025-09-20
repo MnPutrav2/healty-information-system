@@ -155,10 +155,10 @@ onBeforeMount(async () => {
   <section class="anim-slide" ref="pages">
     <h3 style="margin: 0.5rem;">Data Pegawai</h3>
     <div style="padding-top: 0.5rem; padding-bottom: 1rem;" class="bottom-line">
-      <button class="button-action" style="margin: 0.5rem;" @click="open = !open; update = false" v-if="!open">Add pegawai</button>
+      <button class="button-add" style="margin: 0.5rem;" @click="open = !open; update = false" v-if="!open">Add pegawai</button>
       <form class="form-data-custom" v-else v-on:submit.prevent="">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Tambah pegawai</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{id: 'id', name: 'ID pegawai'}">
             <input type="text" v-model="employeeReq.id" id="id" placeholder="ID pemeriksaan" required>
           </InputData>
@@ -217,13 +217,15 @@ onBeforeMount(async () => {
     <div>
       <form class="form-data-custom" v-on:submit.prevent="handleGetEmployee">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari data pegawai</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{id: 'nv', name: 'Nama pegawai'}">
             <input type="text" id="nv" v-model="search.search" placeholder="Nama pegawai">
           </InputData>
           <InputData :props="{id: 'l', name: 'Limit'}">
             <input type="number" id="l" v-model="search.limit" placeholder="Limit">
           </InputData>
+        </div>
+        <div style="margin: 1rem;">
           <button type="submit">Cari</button>
         </div>
       </form>

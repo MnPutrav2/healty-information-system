@@ -150,7 +150,7 @@ onBeforeMount(async () => {
     <h3 style="margin: 0.5rem;">Permintaan Labolatorium</h3>
     <div style="padding-top: 2rem; padding-bottom: 2rem;" class="bottom-line">
       <form class="form-data-custom" v-on:submit.prevent="handleGetLabolatoriumRequestData">
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'dt1', name: 'Tanggal awal' }">
             <input type="datetime-local" step="1" id="dt1" v-model="date1" placeholder="tanggal">
           </InputData>
@@ -161,6 +161,8 @@ onBeforeMount(async () => {
             <input type="datetime-local" step="1" id="date" v-model="sampleDate" placeholder="tanggal">
             <div :class="bool ? 'clock-inactive' : 'clock-active'" class="button-clock" @click="autoDate(bool = !bool)" role="button" tabindex="0"></div>
           </InputDataTime>
+        </div>
+        <div style="margin: 1rem;">
           <button type="submit">Find</button>
         </div>
       </form>

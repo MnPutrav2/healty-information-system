@@ -146,7 +146,7 @@ onBeforeMount(async ()=> {
       <form class="form-data-custom" v-on:submit.prevent="handleCreateDrugData">
 
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Input Data Obat</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'id', name: 'Kode obat' }">
             <input type="text" id="id" placeholder="Kode obat" v-model="drug.id" maxlength="6" required>
           </InputData>
@@ -188,7 +188,7 @@ onBeforeMount(async ()=> {
         </div>
 
         <div>
-          <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Action</h4>
+          <h4 style="margin: 1rem; color: var(--font-color-sec);">Action</h4>
           <button type="submit">Save</button>
           <button type="button" v-if="bool" @click="handleUpdateDrugData(drug.id)">Update</button>
         </div>
@@ -199,13 +199,15 @@ onBeforeMount(async ()=> {
     <div style="padding-bottom: 2rem;">
       <form class="form-data-custom" v-on:submit.prevent="handleGetDrugData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Data Obat</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'sc', name: 'Cari' }">
             <input type="text" id="sc" v-model="search.search" placeholder="Nama obat">
           </InputData>
           <InputData :props="{ id: 'lm', name: 'Limit' }">
             <input type="number" id="lm" v-model="search.limit" placeholder="limit">
           </InputData>
+        </div>
+        <div style="margin: 1rem;">
           <button type="submit">Cari</button>
         </div>
       </form>

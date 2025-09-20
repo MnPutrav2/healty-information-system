@@ -122,7 +122,7 @@ function editExamination(data: ExaminationCost) {
     <div style="padding-top: 2rem; padding-bottom: 2rem;" class="bottom-line">
       <form class="form-data-custom" v-on:submit.prevent="handleCreateExaminationData">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Buat data pemeriksaan</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'id', name: 'ID' }">
             <input type="text" id="id" v-model="examinationData.id" placeholder="ID">
           </InputData>
@@ -156,13 +156,15 @@ function editExamination(data: ExaminationCost) {
     <div style="padding-top: 2rem; padding-bottom: 2rem;">
       <form class="form-data-custom" v-on:submit.prevent="handleGetExamination">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Data Pemeriksaan</h4>
-        <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+        <div class="responsive-grid" style="padding-left: 1rem;">
           <InputData :props="{ id: 'sc', name: 'Cari' }">
             <input type="text" id="sc" v-model="search.search" placeholder="Nama pemeriksaan">
           </InputData>
           <InputData :props="{ id: 'lm', name: 'Limit' }">
             <input type="number" v-model="search.limit" id="lm" placeholder="limit">
           </InputData>
+        </div>
+        <div style="margin: 1rem;">
           <button type="submit">Cari</button>
         </div>
       </form>

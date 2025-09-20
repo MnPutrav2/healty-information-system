@@ -2,6 +2,7 @@
 import { logsApi } from '@/lib/api/logs';
 import { formatDatetime, viewedDateTime } from '@/lib/formatDate';
 import { onBeforeMount, ref } from 'vue';
+import InputData from './Extras/InputData.vue';
 
 // Define variabels
 const date = new Date()
@@ -47,21 +48,15 @@ onBeforeMount(async () => {
     <div style="margin-top: 2rem; margin-bottom: 2rem;">
       <form class="form-data-custom" v-on:submit.prevent="getLogs">
         <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari</h4>
-        <div style="display: grid; grid-template-columns: auto auto auto; padding-left: 1rem;">
-          <div class="input-field">
-            <div class="cover">
-              <label for="tgl1">Tanggal</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+        <div class="responsive-grid" style="padding-left: 1rem;">
+          <InputData :props="{ id: 'tgl1', name: 'Tanggal awal' }">
             <input type="datetime-local" step="1" id="tgl1" v-model="date1" placeholder="tanggal">
-          </div>
-          <div class="input-field">
-            <div class="cover">
-              <label for="tgl2">Tanggal</label>
-            </div>
-            <span style="padding-right: 0.5rem;">:</span>
+          </InputData>
+          <InputData :props="{ id: 'tgl2', name: 'Tanggal akhir' }">
             <input type="datetime-local" step="1" id="tgl2" v-model="date2" placeholder="tanggal">
-          </div>
+          </InputData>
+        </div>
+        <div style="margin: 1rem;">
           <button type="submit" style="width: 2rem;">Cari</button>
         </div>
       </form>

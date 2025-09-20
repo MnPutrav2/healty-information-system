@@ -162,126 +162,130 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <section class="container center">
-    <div class="cover2 scroll">
-      <div class="close-btn center">
-        <slot name="btn-close"></slot>
+  <teleport to='body' >
+    <section class="container center">
+      <div class="cover2 scroll">
+        <div class="close-btn center">
+          <slot name="btn-close"></slot>
+        </div>
+
+        <div style="padding-top: 2rem; padding-bottom: 2rem;">
+          <form class="form-data-custom" v-on:submit.prevent="handleCreateRecipe">
+            <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+              <InputData :props="{ id: 'mr', name: 'Nomor rawat' }">
+                <input type="text" id="mr" v-model="recipeRequest.care_number" readonly placeholder="no rawat">
+              </InputData>
+              <InputData :props="{ id: 'ss', name: 'Nomor resep' }">
+                <input type="text" id="ss" v-model="recipeRequest.recipe_number" placeholder="resep">
+              </InputData>
+              <InputData :props="{ id: 'ck', name: 'Timpa resep' }">
+                <input type="checkbox" id="ck" v-model="recipeType" placeholder="resep">
+              </InputData>
+              <InputData :props="{ id: 'da', name: 'Tanggal resep' }">
+                <input type="datetime-local" id="da" step="1" v-model="recipeRequest.date" placeholder="resep">
+              </InputData>
+              <button>Save</button>
+            </div>
+          </form>
+        </div>
+
+        <h4 style="margin-bottom: 1rem;">Resep Obat</h4>
+        <hr>
+
+        <div style="width: 100%; height: 15rem; margin-top: 1rem;" class="scroll">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <td>Action</td>
+                <td>Nama</td>
+                <td>Jumlah</td>
+                <td>Harga/tablet</td>
+                <td>Aturan pakai</td>
+                <td>Embalase</td>
+                <td>Tuslah</td>
+                <td>Total</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="rec in recipes" :key="rec.id">
+                <td>
+                  <button class="button-action" @click="removeRecipe(rec.id)">Delete</button>
+                </td>
+                <td>{{ rec.name }}</td>
+                <td>{{ rec.value }}</td>
+                <td>{{ rec.price }}</td>
+                <td>{{ rec.use }}</td>
+                <td>{{ rec.embalming }}</td>
+                <td>{{ rec.tuslah }}</td>
+                <td>{{ sum(rec.price, rec.value, rec.embalming, rec.tuslah) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top: 2rem; margin-left: 2rem;">Total = {{ loopSum(recipes) }}</div>
+
+        <div style="padding-top: 2rem; padding-bottom: 2rem;">
+          <form class="form-data-custom" v-on:submit.prevent="handleGetDrugData">
+            <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari Obat</h4>
+            <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
+              <InputData :props="{ id: 'dt1', name: 'Nama obat' }">
+                <input type="text" id="dt1" v-model="searchDrug" placeholder="Nama obat">
+              </InputData>
+              <button>Cari</button>
+            </div>
+          </form>
+        </div>
+
+        <hr>
+
+        <div style="width: 100%; height: 15rem" class="scroll">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <td>Action</td>
+                <td>Nama</td>
+                <td>Jumlah</td>
+                <td>Aturan pakai</td>
+                <td>Embalase</td>
+                <td>Tuslah</td>
+                <td>Komposisi</td>
+                <td>Harga/tablet</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="rec in drugs" :key="rec.id">
+                <td>
+                  <button class="button-action" @click="handleAddDrug(rec)">Add</button>
+                </td>
+                <td>{{ rec.name }}</td>
+                <td>
+                  <input type="number" v-model.number="valMap[rec.id]" />
+                </td>
+                <td>
+                  <input type="text" v-model="useMap[rec.id]" />
+                </td>
+                <td>
+                  <input type="number" v-model="embalmingMap[rec.id]" />
+                </td>
+                <td>
+                  <input type="number" v-model="tuslahMap[rec.id]" />
+                </td>
+                <td>{{ rec.composition }}</td>
+                <td>{{ rec.price }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      <div style="padding-top: 2rem; padding-bottom: 2rem;">
-        <form class="form-data-custom" v-on:submit.prevent="handleCreateRecipe">
-          <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <InputData :props="{ id: 'mr', name: 'Nomor rawat' }">
-              <input type="text" id="mr" v-model="recipeRequest.care_number" readonly placeholder="no rawat">
-            </InputData>
-            <InputData :props="{ id: 'ss', name: 'Nomor resep' }">
-              <input type="text" id="ss" v-model="recipeRequest.recipe_number" placeholder="resep">
-            </InputData>
-            <InputData :props="{ id: 'ck', name: 'Timpa resep' }">
-              <input type="checkbox" id="ck" v-model="recipeType" placeholder="resep">
-            </InputData>
-            <InputData :props="{ id: 'da', name: 'Tanggal resep' }">
-              <input type="datetime-local" id="da" step="1" v-model="recipeRequest.date" placeholder="resep">
-            </InputData>
-            <button>Save</button>
-          </div>
-        </form>
-      </div>
-
-      <h4 style="margin-bottom: 1rem;">Resep Obat</h4>
-      <hr>
-
-      <div style="width: 100%; height: 15rem; margin-top: 1rem;" class="scroll">
-        <table class="table-custom">
-          <thead>
-            <tr>
-              <td>Action</td>
-              <td>Nama</td>
-              <td>Jumlah</td>
-              <td>Harga/tablet</td>
-              <td>Aturan pakai</td>
-              <td>Embalase</td>
-              <td>Tuslah</td>
-              <td>Total</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="rec in recipes" :key="rec.id">
-              <td>
-                <button class="button-action" @click="removeRecipe(rec.id)">Delete</button>
-              </td>
-              <td>{{ rec.name }}</td>
-              <td>{{ rec.value }}</td>
-              <td>{{ rec.price }}</td>
-              <td>{{ rec.use }}</td>
-              <td>{{ rec.embalming }}</td>
-              <td>{{ rec.tuslah }}</td>
-              <td>{{ sum(rec.price, rec.value, rec.embalming, rec.tuslah) }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style="margin-top: 2rem; margin-left: 2rem;">Total = {{ loopSum(recipes) }}</div>
-
-      <div style="padding-top: 2rem; padding-bottom: 2rem;">
-        <form class="form-data-custom" v-on:submit.prevent="handleGetDrugData">
-          <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari Obat</h4>
-          <div class="center" style="justify-content: flex-start; align-items: flex-end; padding-left: 1rem;">
-            <InputData :props="{ id: 'dt1', name: 'Nama obat' }">
-              <input type="text" id="dt1" v-model="searchDrug" placeholder="Nama obat">
-            </InputData>
-            <button>Cari</button>
-          </div>
-        </form>
-      </div>
-
-      <hr>
-
-      <div style="width: 100%; height: 15rem" class="scroll">
-        <table class="table-custom">
-          <thead>
-            <tr>
-              <td>Action</td>
-              <td>Nama</td>
-              <td>Jumlah</td>
-              <td>Aturan pakai</td>
-              <td>Embalase</td>
-              <td>Tuslah</td>
-              <td>Komposisi</td>
-              <td>Harga/tablet</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="rec in drugs" :key="rec.id">
-              <td>
-                <button class="button-action" @click="handleAddDrug(rec)">Add</button>
-              </td>
-              <td>{{ rec.name }}</td>
-              <td>
-                <input type="number" v-model.number="valMap[rec.id]" />
-              </td>
-              <td>
-                <input type="text" v-model="useMap[rec.id]" />
-              </td>
-              <td>
-                <input type="number" v-model="embalmingMap[rec.id]" />
-              </td>
-              <td>
-                <input type="number" v-model="tuslahMap[rec.id]" />
-              </td>
-              <td>{{ rec.composition }}</td>
-              <td>{{ rec.price }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+    </section>
+  </teleport>
 </template>
 
 <style scoped>
 .container {
+  inset: 0;
+  position: fixed;
   width: 100%;
   height: 100%;
   backdrop-filter: blur(2px);
