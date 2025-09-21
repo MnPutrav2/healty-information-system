@@ -111,13 +111,15 @@ watch(() => getUserData.menu, (newVal) => {
 
 <template>
   <section class="anim-slide responsive-navbar phone" :style="openNav ? 'width: 100%' : 'width: 0%'">
-    <div class="profil-card">
-      <div style="height: 90%; border-bottom: 1px solid var(--line-color-transparent)">
-        <div class="center" style="padding: 0.5rem; justify-content: flex-start">
-          <div class="icon"></div>
-          <div style="margin-left: 0.5rem;">
-            <p style="font-weight: bold;">{{ userData.name }}</p>
-            <button @click="logout" class="logout">Logout</button>
+    <div style="padding: 0.5rem;">
+      <div class="profil-card">
+        <div style="height: 90%;">
+          <div class="center" style="padding: 0.5rem; justify-content: flex-start">
+            <div class="icon"></div>
+            <div style="margin-left: 0.5rem;">
+              <p style="font-weight: bold;">{{ userData.name }}</p>
+              <button @click="logout" class="logout">Logout</button>
+            </div>
           </div>
         </div>
       </div>
@@ -138,13 +140,15 @@ watch(() => getUserData.menu, (newVal) => {
     </div>
   </section>
   <section class="anim-slide responsive-navbar desktop">
-    <div class="profil-card">
-      <div style=" height: 90%; border-bottom: 1px solid var(--line-color-transparent)">
-        <div class="center" style="padding: 0.5rem; justify-content: flex-start">
-          <div class="icon"></div>
-          <div style="margin-left: 0.5rem;">
-            <p style="font-weight: bold;">{{ userData.name }}</p>
-            <button @click="logout" class="logout">Logout</button>
+    <div style="padding: 0.5rem;">
+      <div class="profil-card">
+        <div style=" height: 90%">
+          <div class="center" style="padding: 0.5rem; justify-content: flex-start">
+            <div class="icon"></div>
+            <div style="margin-left: 0.5rem;">
+              <p style="font-weight: bold;">{{ userData.name }}</p>
+              <button @click="logout" class="logout">Logout</button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import CardMascot from './first/CardMascot.vue';
+import CardMascot from '@/components/Pages/first/CardMascot.vue';
 
 // Define variabels
 const getUserData = defineProps(['data'])

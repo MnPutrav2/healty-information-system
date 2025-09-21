@@ -54,7 +54,7 @@ const days = ref<Day[]>([
           </div>
         </div>
         <div class="center responsive-width">
-          <img class="mascout-img" src="../../assets/images/mascout.png" alt="">
+          <img class="mascout-img" src="../../../assets/images/mascout.png" alt="">
         </div>
       </div>
     </div>

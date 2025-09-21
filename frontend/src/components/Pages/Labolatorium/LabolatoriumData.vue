@@ -2,7 +2,7 @@
 import { createLabolatoriumData, createLabolatoriumTemplateData, deleteLabolatoriumData, deleteLabolatoriumTemplate, getLabolatoriumData, getLabolatoriumTemplate, updateLabolatoriumData } from '@/lib/api/labolatorium';
 import type { LabolatoriumCreate, LabolatoriumDatas, LabolatoriumTemplate, LabolatoriumTemplateCreate } from '@/types/labolatorium';
 import { nextTick, onBeforeMount, reactive, ref } from 'vue';
-import InputData from '../Extras/InputData.vue';
+import InputData from '@/components/Extras/InputData.vue';
 
 // Define variabel
 const pageScroll = ref<HTMLElement | null>()

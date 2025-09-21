@@ -7,7 +7,7 @@ import type { Patient } from '@/types/patient';
 import { formatDate, viewedDate } from '@/lib/formatDate';
 import type { Address } from '@/types/register';
 import type { SearchLimit } from '@/types/response';
-import InputData from '../Extras/InputData.vue';
+import InputData from '@/components/Extras/InputData.vue';
 
 // Define variabels
 const search = reactive<SearchLimit>({
@@ -506,19 +506,19 @@ onBeforeMount(async () => {
       </form>
     </div>
 
-    <div style="padding-top: 2rem; padding-bottom: 2rem;">
-      <form class="form-data-custom" v-on:submit.prevent="handleGetSearchPatient">
-        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari pasien</h4>
-        <div class="responsive-grid" style="padding-left: 1rem;">
-          <InputData :props="{ id: 'cr', name: 'No RM/Nama Pasien' }">
-            <input type="text" id="cr" placeholder="No RM/Nama Pasien" v-model="search.search">
-          </InputData>
-          <InputData :props="{ id: 'limit1', name: 'Limit' }">
-            <input type="number" id="limit1" placeholder="limit data" v-model="search.limit">
-          </InputData>
-        </div>
-        <div style="margin: 1rem;">
-          <button>Cari</button>
+    <div style="padding: 0.5rem; padding-top: 2rem; padding-bottom: 2rem;">
+      <form class="form-search-input" v-on:submit.prevent="handleGetSearchPatient">
+        <div class="box-search">
+          <div class="box">
+            <input class="search-input" type="number" id="lm" v-model="search.limit" placeholder="limit">
+            <input class="search-input" type="text" id="sc" v-model="search.search" placeholder="No RM/Nama pasien">
+          </div>
+          <button type="submit">
+            <p>Search</p>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="384px" height="384px">
+              <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z"/>
+            </svg>
+          </button>
         </div>
       </form>
     </div>

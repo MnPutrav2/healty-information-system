@@ -5,8 +5,8 @@ import { formatDatetime, viewedDateTime } from '@/lib/formatDate';
 import type { RecipeType, RecipeData, Drug, DetailRecipe, RecipeForRequest, RecipesForRequest, RecipeCompoundForRequest, RecipeCompound, ValidateTypeRecipe, HandoverTypeRecipe } from '@/types/pharmacy';
 import type { SearchLimit } from '@/types/response';
 import { nextTick, onBeforeMount, reactive, ref } from 'vue';
-import InputData from '../Extras/InputData.vue';
-import InputDataTime from '../Extras/InputDataTime.vue';
+import InputData from '@/components/Extras/InputData.vue';
+import InputDataTime from '@/components/Extras/InputDataTime.vue';
 
 
 // Define variabel
@@ -333,19 +333,20 @@ onBeforeMount(async () => {
 <template>
   <section class="anim-slide" ref="pageScrollTop">
     <h3 style="margin: 0.5rem;">Resep masuk</h3>
-    <div style="padding-top: 2rem; padding-bottom: 2rem;" class="bottom-line">
-      <form class="form-data-custom" v-on:submit.prevent="handleGetRecipeData">
-        <h4 style="margin: 0.5rem; color: var(--font-color-sec);">Cari resep</h4>
-        <div class="responsive-grid" style="padding-left: 1rem;">
-          <InputData :props="{ id: 'dt1', name: 'Tanggal awal' }">
-            <input type="datetime-local" step="1" id="dt1" v-model="firstDateSearch" placeholder="tanggal">
-          </InputData>
-          <InputData :props="{ id: 'dt2', name: 'Tanggal akhir' }">
-            <input type="datetime-local" step="1" id="dt2" v-model="lastDateSearch" placeholder="tanggal">
-          </InputData>
-        </div>
-        <div style="margin: 1rem;">
-          <button type="submit">Cari</button>
+
+    <div style="padding: 0.5rem; padding-top: 2rem; padding-bottom: 2rem;">
+      <form class="form-search-input" v-on:submit.prevent="handleGetRecipeData">
+        <div class="box-search">
+          <div class="box">
+            <input class="search-input" type="datetime-local" step="1" id="dt1" v-model="firstDateSearch" placeholder="date">
+            <input class="search-input" type="datetime-local" step="1" id="dt2" v-model="lastDateSearch" placeholder="date">
+          </div>
+          <button type="submit">
+            <p>Search</p>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="384px" height="384px">
+              <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z"/>
+            </svg>
+          </button>
         </div>
       </form>
     </div>

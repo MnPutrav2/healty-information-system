@@ -3,8 +3,8 @@ import { getLabolatoriumDetailData, getLabolatoriumRequest, updateLabolatoriumSa
 import { nextTick, onBeforeMount, ref } from 'vue'
 import type { LabolatoriumRequestData,  LabReq, LabolatoriumValue, LabUpdateSample, LabolatoriumDetailData } from '@/types/labolatorium'
 import { formatDatetime, viewedDateTime } from '@/lib/formatDate'
-import InputData from '../Extras/InputData.vue'
-import InputDataTime from '../Extras/InputDataTime.vue'
+import InputData from '@/components/Extras/InputData.vue'
+import InputDataTime from '@/components/Extras/InputDataTime.vue'
 
 // Define variabel
 const date = new Date()

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UserReq } from '@/types/hr';
-import InputData from '../Extras/InputData.vue';
+import InputData from '@/components/Extras/InputData.vue';
 import { reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { addUser } from '@/lib/api/hr';
