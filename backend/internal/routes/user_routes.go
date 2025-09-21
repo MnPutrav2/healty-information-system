@@ -64,7 +64,7 @@ func UserLogout(w http.ResponseWriter, r *http.Request, db *sql.DB, path string)
 	}
 
 	switch r.Method {
-	case "GET":
+	case "DELETE":
 		controllers.UserLogout(w, r, db, path)
 
 	default:
