@@ -43,9 +43,7 @@ onBeforeMount(async () => {
 
 <template>
   <section class="anim-slide" ref="pages">
-    <h3 style="margin: 0.5rem;">Logs Activity</h3>
-
-    <div style="padding: 0.5rem; padding-top: 2rem; padding-bottom: 2rem;">
+    <div style="padding: 0.5rem; padding-top: 2rem">
       <form class="form-search-input" v-on:submit.prevent="getLogs">
         <div class="box-search">
           <div class="box">

@@ -1,6 +1,7 @@
 import '@/assets/global.css'
 import '@/assets/dark.css'
 import '@/assets/css/form.css'
+import '@/assets/css/button.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'

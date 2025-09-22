@@ -15,20 +15,6 @@ main {
   height: 100vh;
 }
 
-.button-clock {
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  margin-left: 0.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-  display: inline-block;
-  color: var(--font-color);
-}
-
 .clock-active {
   background-image: url('../assets/icons/clock.svg');
 }
@@ -178,15 +164,6 @@ input {
   background-color: var(--table-color);
 }
 
-.button-action {
-  margin: 0.2rem;
-  padding: 0.3rem;
-  border: 1px solid var(--line-color);
-  color: var(--font-color);
-  background-color: var(--menu-color);
-  border-radius: 0.2rem;
-}
-
 .find-input {
   position: absolute;
   margin-top: 0.5rem;
@@ -198,17 +175,6 @@ input {
   overflow-y: scroll;
   scrollbar-width: thin;
   font-size: var(--font-size);
-}
-
-.button-add {
-  padding: 0.5rem;
-  margin: 0.5rem;
-  width: 95%;
-  border: 1px solid var(--line-color);
-  border-style: dashed;
-  background-color: var(--background-color-transparent);
-  border-radius: 0.5rem;
-  color: var(--font-color);
 }
 
 .find-input > ul {
@@ -233,6 +199,7 @@ hr {
     padding: 0.5rem;
     z-index: 1;
     font-weight: bold;
+    border: 1px solid var(--line-color-transparent);
 }
 
 .drop-down > .act {
@@ -276,7 +243,7 @@ hr {
   height: 20%;
   background-color: var(--background-color);
   box-shadow: 1px 1px 5px 1px var(--shadow);
-  border-radius: 1rem;
+  border-radius: 0 0 1rem 0;
 }
 
 .nav-card {
@@ -353,12 +320,12 @@ hr {
 
 .responsive-grid {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto auto auto auto;
 }
 
 .responsive-grid-sec {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
 }
 
 .menu-list {

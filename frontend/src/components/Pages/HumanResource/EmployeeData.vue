@@ -6,7 +6,10 @@ import type { ResponseError, ResponseSuccess, SearchLimit } from '@/types/respon
 import { nextTick, onBeforeMount, reactive, ref } from 'vue';
 import InputData from '@/components/Extras/InputData.vue';
 import router from '@/router';
+import UserAccessForm from '@/components/Form/UserAccessForm.vue';
 
+const user = defineProps(['data'])
+const menuOpen = ref<boolean[]>([])
 const open = ref<boolean>(false)
 const dropOpenTemplate = ref<boolean[]>([])
 const update = ref<boolean>(false)
@@ -126,6 +129,12 @@ function editEmployee(data: EmployeeData, index: number) {
   })
 }
 
+function base64encode(id: string, name: string): string{
+  const enc: string = btoa(`${id}|${name}`)
+
+  return enc
+}
+
 function resetForm() {
   employeeReq.id = ""
   employeeReq.name = ""
@@ -141,10 +150,6 @@ function resetForm() {
   employeeReq.email = ""
 }
 
-function base64encode(data: string, data2: string): string {
-  return btoa(`${data}|${data2}`)
-}
-
 onBeforeMount(async () => {
   await handleGetEmployee()
 })
@@ -153,7 +158,7 @@ onBeforeMount(async () => {
 
 <template>
   <section class="anim-slide" ref="pages">
-    <h3 style="margin: 0.5rem;">Data Pegawai</h3>
+    <h3 style="margin: 0.5rem;">Data Pegawai {{ user.data.name }}</h3>
     <div style="padding-top: 0.5rem; padding-bottom: 1rem;" class="bottom-line">
       <button class="button-add" style="margin: 0.5rem;" @click="open = !open; update = false" v-if="!open">Add pegawai</button>
       <form class="form-data-custom" v-else v-on:submit.prevent="">
@@ -251,32 +256,32 @@ onBeforeMount(async () => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(data, index) in employeeData" :key="data.id">
-            <td>{{ data.id }}</td>
-            <td>{{ data.name }}</td>
-            <td>{{ data.gender }}</td>
-            <td>{{ data.birth_place + ", " + formatDate(new Date(data.birth_date)) }}</td>
-            <td>{{ data.wedding }}</td>
-            <td>{{ data.address }}</td>
-            <td>{{ data.nik }}</td>
-            <td>{{ data.bpjs }}</td>
-            <td>{{ data.npwp }}</td>
-            <td>{{ data.phone_number }}</td>
-            <td>{{ data.email }}</td>
-            <td :style="data.status ? 'color: lightgreen' : 'color: red'">{{ data.status ? 'Aktif' : 'Non aktif' }}</td>
+          <tr v-for="(employee, index) in employeeData" :key="employee.id">
+            <td>{{ employee.id }}</td>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.gender }}</td>
+            <td>{{ employee.birth_place + ", " + formatDate(new Date(employee.birth_date)) }}</td>
+            <td>{{ employee.wedding }}</td>
+            <td>{{ employee.address }}</td>
+            <td>{{ employee.nik }}</td>
+            <td>{{ employee.bpjs }}</td>
+            <td>{{ employee.npwp }}</td>
+            <td>{{ employee.phone_number }}</td>
+            <td>{{ employee.email }}</td>
+            <td :style="employee.status ? 'color: lightgreen' : 'color: red'">{{ employee.status ? 'Aktif' : 'Non aktif' }}</td>
             <td style="position: relative;">
               <div class="drop-down">
                   <button class="act" @click="dropOpenTemplate[index] = !dropOpenTemplate[index]">:</button>
                   <div class="menu" v-if="dropOpenTemplate[index]">
                       <ul>
                           <li>
-                              <button class="button-action" @click="handleDeleteEmployee(data.id)">Delete</button>
+                              <button class="button-action" @click="handleDeleteEmployee(employee.id)">Delete</button>
                           </li>
                           <li>
-                            <button class="button-action" @click="editEmployee(data, index)">Update</button>
+                            <button class="button-action" @click="editEmployee(employee, index)">Update</button>
                           </li>
                           <li>
-                            <button class="button-action" @click="router.push(`/human-resource/user-access?id=${base64encode(data.id, data.name)}`)">Add user access</button>
+                            <button class="button-action" @click="router.push(`?id=${base64encode(employee.id, employee.name)}`); menuOpen[0] = true; dropOpenTemplate[index] = false">Add user access</button>
                           </li>
                       </ul>
                   </div>
@@ -287,4 +292,12 @@ onBeforeMount(async () => {
       </table>
     </div>
   </section>
+
+  <teleport to='body' v-if="menuOpen[0]">
+    <UserAccessForm>
+      <template #btn-close>
+        <button class="act" @click="menuOpen[0] = false">X</button>
+      </template>
+    </UserAccessForm>
+  </teleport>
 </template>

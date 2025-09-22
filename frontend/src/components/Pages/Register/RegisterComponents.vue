@@ -291,7 +291,7 @@ onBeforeMount(async () => {
         <div class="box-search">
           <div class="box">
             <input class="search-input" type="number" id="lm" v-model="search.limit" placeholder="limit">
-            <input class="search-input" type="text" id="sc" v-model="search.search" placeholder="Nama pemeriksaan">
+            <input class="search-input" type="text" id="sc" v-model="search.search" placeholder="No RM/Nama pasien">
           </div>
           <button type="submit">
             <p>Search</p>
@@ -343,7 +343,7 @@ onBeforeMount(async () => {
             <input class="search-input" type="datetime-local" step="1" id="lm" v-model="date1" placeholder="date">
             <input class="search-input" type="datetime-local" step="1" id="lm" v-model="date2" placeholder="date">
             <input class="search-input" type="number" id="lm" v-model="search2.limit" placeholder="limit">
-            <input class="search-input" type="text" id="sc" v-model="search2.search" placeholder="Nama pemeriksaan">
+            <input class="search-input" type="text" id="sc" v-model="search2.search" placeholder="No RM/Nama pasien">
           </div>
           <button type="submit">
             <p>Search</p>

@@ -18,7 +18,7 @@
   padding: 0.55rem;
   background-color: transparent;
   color: var(--font-color);
-  font-size: 0.8rem;
+  font-size: var(--font-size);
   border: none;
   border-radius: 1rem;
 }
@@ -31,7 +31,7 @@
 
 .form-search-input p {
   margin-right: 1rem;
-  font-size: 0.8rem;
+  font-size: var(--font-size);
 }
 
 .form-search-input button {
@@ -42,7 +42,7 @@
   color: var(--font-color);
   border: none;
   border: 1px solid var(--line-color-transparent);
-  font-size: 0.8rem;
+  font-size: var(--font-size);
   display: flex;
   align-items: center;
   box-shadow: 1px 1px 5px 1px var(--shadow);

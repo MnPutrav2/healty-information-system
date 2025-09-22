@@ -22,7 +22,6 @@ const openModal = ref<boolean>(false)
 const menuOpen = ref<boolean[]>([])
 const route = useRoute()
 
-
 const user = defineProps(['data'])
 const gl = new Date()
 const date1 = ref<string>(formatDatetime(gl, "00:00:00"))
@@ -160,7 +159,6 @@ async function handleUpdateStatus(careNum: string, status: string) {
 
   try {
     if (response.status === 200) {
-      alert("success")
       await handleGetRegister()
     } else {
       alert(json.errors)

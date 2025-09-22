@@ -33,7 +33,7 @@ const days = ref<Day[]>([
     name: "Sabtu"
   },
   {
-    id: 7,
+    id: 0,
     name: "Minggu"
   }
 ])
